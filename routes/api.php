@@ -49,8 +49,8 @@ Route::delete('/review/{id}', [ReviewController::class, 'destroy']);
 Route::get('/user/buku/{id}/show', [BukuController::class, 'show']);
 
 
-Route::post('/user/history', [HistoryController::class, 'addToHistory']);
-Route::get('/user/history', [HistoryController::class, 'getHistory']);
+Route::post('/user/{id}/history', [HistoryController::class, 'addToHistory']);
+Route::get('/user/{id}/history', [HistoryController::class, 'getHistory']);
 
 Route::post('/user/favorites', [FavoriteController::class, 'addToFavorites']);
 Route::get('/user/favorites', [FavoriteController::class, 'getFavorites']);

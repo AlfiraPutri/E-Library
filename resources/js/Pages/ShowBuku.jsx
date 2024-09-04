@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ShowBukuWrap, Container, Divider, InfoTitle, ContentWrapper, LeftColumn, RightColumn, CoverImage, Button, Title, Description, InfoSection, InfoItem, DownloadButton, SmileButton, Badge } from './ShowBuku.styles';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const ShowBukuPage = () => {
+const ShowBukuPage = ({auth}) => {
     const { id } = useParams();
     const [buku, setBuku] = useState(null);
 
@@ -35,18 +35,26 @@ const ShowBukuPage = () => {
     console.log(pdfUrl);
 
     const handleReadNowClick = async () => {
-        await saveToHistory();
+        await saveToHistory(buku.id_buku);
         navigate(`/user/flipbook/${id}`);
     };
 
-    const saveToHistory = async () => {
+    const saveToHistory = async (id_buku) => {
         try {
-            await axios.post('http://127.0.0.1:8000/api/user/history', {
-                id_buku: id // Mengirim ID buku yang dibaca
-            });
-            console.log('Buku berhasil disimpan ke dalam history.');
+            console.log('User ID:', auth.user.id_users);
+            console.log('Buku ID:', id_buku);
+            const response = await axios.post(`http://127.0.0.1:8000/api/user/${auth.user.id_users}/history`,
+                {
+                    id_buku: id_buku,
+                    judul: buku.judul,
+                    img_buku: buku.img_buku,
+                }
+            );
+                // your request body data here
+
+            console.log('Data saved to history:', response.data);
         } catch (error) {
-            console.error('Error saving to history:', error);
+            console.error('Error saving to history:', error.response ? error.response.data : error.message);
         }
     };
 

@@ -3,24 +3,51 @@
 namespace App\Http\Controllers;
 
 use App\Models\History;
+use App\Models\Buku;
 use Illuminate\Http\Request;
-
-
+use Illuminate\Support\Facades\Log;
 
 class HistoryController extends Controller
 {
-    public function addToHistory(Request $request)
+    public function addToHistory(Request $request, $id)
     {
-        $history = new History();
-        $history->id_users = $request->user()->id_users;
-        $history->id_buku = $request->id_buku;
-        $history->save();
+        Log::info('Data yang diterima:', $request->all());
 
-        return response()->json(['message' => 'Added to history'], 200);
+        try {
+            // Memastikan buku yang dimaksud ada
+            $id_buku = $request->input('id_buku');
+        Log::info('Mencari buku dengan id_buku: ' . $id_buku);
+
+        $buku = Buku::find($id_buku);
+        if (!$buku) {
+            return response()->json(['message' => 'Buku tidak ditemukan'], 404);
+        }
+
+            // Menyimpan riwayat buku yang telah dibaca oleh pengguna
+            History::create([
+                'id_users' => $id,
+                'id_buku' => $request->input('id_buku'),
+                'created_at' => now(), // Menyimpan tanggal dan waktu saat buku dibaca
+            ]);
+
+            return response()->json(['message' => 'Added to history'], 200);
+        } catch (\Exception $exception) {
+            return response()->json(['message' => 'Failed: ' . $exception->getMessage()], 500);
+        }
     }
 
     public function getHistory(Request $request)
     {
+        // Periksa apakah pengguna sudah diautentikasi
+        $user = $request->user();
+    Log::info('User data:', ['user' => $user]);
+
+        if (!$request->user()) {
+        return response()->json(['message' => 'User not authenticated'], 401);
+    }
+
+    // Ambil ID pengguna
+    $id_users = $user()->id_users;
         $history = History::where('id_users', $request->user()->id_users)->with('buku')->get();
         return response()->json($history, 200);
     }

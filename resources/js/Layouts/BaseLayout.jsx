@@ -56,7 +56,7 @@ const BaseLayout = ({auth}) => {
           <Route path="/user/download" element={<DownloadUser />} />
           <Route path="/user/favorite" element={<FavoriteUser />} />
           <Route path="/user/profile" element={<DashboardUser />} />
-          <Route path="/user/buku/:id/show" element={<ShowBukuPage />} />
+          <Route path="/user/buku/:id/show" element={<ShowBukuPage auth={auth}/>} />
           <Route path="/user/flipbook/:id" element={<FlipBukuPage />} />
 
 
