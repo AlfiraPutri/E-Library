@@ -17,12 +17,12 @@ class History extends Model
     // Relationship to the User model
     public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'id_users', 'id');
     }
 
     // Relationship to the Book model
     public function buku()
     {
-        return $this->belongsTo(Buku::class);
+        return $this->belongsTo(Buku::class, 'id_buku', 'id_buku');
     }
 }

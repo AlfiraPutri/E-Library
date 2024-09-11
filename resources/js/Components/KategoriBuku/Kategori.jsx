@@ -4,11 +4,22 @@ import { KategoriWrap } from "./Kategori.styles";
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import FormKategori from '../FormKategori';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
+import DataTable from 'react-data-table-component';
+import Checkbox from '@mui/material/Checkbox';
+import IconButton from '@mui/material/IconButton';
+import ArrowDownward from '@mui/icons-material/ArrowDownward';
+import Delete from '@mui/icons-material/Delete';
 
-const Kategori = () => {
+const Kategori = ({setPageTitle}) => {
+  setPageTitle('Kategori Buku')
   const [kategori, setKategori] = useState([]);
   const [isFormKategoriOpen, setIsFormKategoriOpen] = useState(false);
   const [currentCategory, setCurrentCategory] = useState(null);
+  const [filteredKategori, setFilteredKategori] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [toggleCleared, setToggleCleared] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     fetchKategori();
@@ -24,6 +35,22 @@ const Kategori = () => {
       console.error('Error fetching data:', error);
     }
   };
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const searchQuery = queryParams.get('search') || '';
+
+    // Jika searchQuery kosong, tampilkan semua data
+    if (searchQuery === '') {
+        setFilteredKategori(kategori);
+      } else {
+        // Filter data berdasarkan nama kategori
+        const filteredData = kategori.filter(kategori =>
+          kategori.nama_kategori?.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setFilteredKategori(filteredData); // Update state untuk menampilkan hasil filter
+      }
+  }, [location.search, kategori]);
 
   const handleAddClick = () => {
     setCurrentCategory(null);
@@ -63,16 +90,55 @@ const Kategori = () => {
     }
   };
 
+  const deleteAll = () => {
+    const ids = selectedRows.map(row => row.id_kategori);
+
+    if (window.confirm(`Are you sure you want to delete ${ids.length} kategoris?`)) {
+      ids.forEach(id => handleDelete(id));
+      setToggleCleared(!toggleCleared);
+      setSelectedRows([]);
+    }
+  };
+
+  const columns = [
+    {
+      name: 'Nama Kategori',
+      selector: row => row.nama_kategori,
+      sortable: true,
+    },
+    {
+      name: 'Jumlah Buku',
+      selector: row => row.jumlah_buku,
+      sortable: true,
+    },
+    {
+      name: 'Actions',
+      cell: row => (
+        <>
+          <IconButton onClick={() => handleEditClick(row)} title="Edit">
+            <FaEdit style={{ color: '#F77D00' }} />
+          </IconButton>
+          <IconButton onClick={() => handleDelete(row.id_kategori)} title="Delete">
+            <FaTrash style={{ color: '#F77D00' }} />
+          </IconButton>
+        </>
+      ),
+    },
+  ];
+
   return (
     <KategoriWrap>
       <div className="block-head">
-        <BlockTitle className="block-title">
-          <h3>Kategori Buku</h3>
-        </BlockTitle>
         <button type="button" className="export-btn" onClick={handleAddClick}>
           <FaPlus style={{ marginRight: '5px' }} />
           <span className="text">Add</span>
         </button>
+
+        {selectedRows.length > 0 && (
+          <IconButton color="secondary" onClick={deleteAll}>
+            <Delete />
+          </IconButton>
+        )}
       </div>
 
       <FormKategori
@@ -82,43 +148,32 @@ const Kategori = () => {
         category={currentCategory}
       />
 
-      <div className="tbl-products">
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Nama Kategori</th>
-              <th>Jumlah Buku</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {kategori.map((category, index) => (
-              <tr key={category.id_kategori}>
-                <td>{index + 1}</td>
-                <td>{category.nama_kategori}</td>
-                <td>{category.jumlah_buku}</td>
-                <td>
-                  <button
-                    onClick={() => handleEditClick(category)}
-                    title="Edit"
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', marginRight: '10px' }}
-                  >
-                    <FaEdit style={{ color: '#F77D00', marginRight: '5px' }} />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(category.id_kategori)}
-                    title="Delete"
-                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-                  >
-                    <FaTrash style={{ color: '#F77D00' }} />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+<DataTable
+        // title="Data Pengguna"
+        columns={columns}
+        data={filteredKategori}
+        defaultSortFieldId={1}
+        highlightOnHover
+        pagination
+        customStyles={{
+            headCells: {
+              style: {
+                backgroundColor: '#F77D00',  // Warna oranye untuk header
+                color: '#ffffff',            // Warna teks putih
+                fontSize: '16px',            // Ukuran font
+                fontWeight: 'bold',          // Tebal font
+                padding: '10px',             // Jarak di dalam header
+              },
+            },
+          }}
+        selectableRows
+        selectableRowsComponent={Checkbox}
+        selectableRowsComponentProps={{ indeterminate: isIndeterminate => isIndeterminate }}
+        onSelectedRowsChange={state => setSelectedRows(state.selectedRows)}
+        clearSelectedRows={toggleCleared}
+        sortIcon={<ArrowDownward />}
+      />
+
     </KategoriWrap>
   );
 };

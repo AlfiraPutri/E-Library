@@ -18,10 +18,24 @@ class BukuController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $buku = Buku::all();
+
+            // Ambil parameter pencarian dari request
+            $search = $request->input('search');
+
+            if ($search) {
+                $buku = Buku::where('judul', 'LIKE', '%' . $search . '%')
+                    ->orWhere('isbn', 'LIKE', '%' . $search . '%')
+                    ->orWhere('pengarang', 'LIKE', '%' . $search . '%')
+                    ->get();
+                } else {
+                    // Jika tidak ada parameter pencarian, ambil semua pengguna
+                    $buku = Buku::all();
+                }
+
+
             return response()->json($buku);
         } catch (\Exception $exception) {
             Log::error('Error fetching books: ' . $exception->getMessage());

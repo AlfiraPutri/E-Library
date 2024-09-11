@@ -1,10 +1,10 @@
 import React from "react";
 import Koleksi from "../Components/KoleksiBuku/Koleksi";
 
-const ListKoleksi = ({ }) => {
+const ListKoleksi = ({ setPageTitle }) => {
     return (
           <div className="area-row ar-two">
-            <Koleksi />
+            <Koleksi setPageTitle={setPageTitle} />
           </div>
       );
 };

@@ -15,10 +15,25 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $users = User::all();
+
+            // Ambil parameter pencarian dari request
+            $search = $request->input('search');
+
+            // Jika parameter pencarian ada, filter pengguna berdasarkan nama, email, atau username
+        if ($search) {
+            $users = User::where('nama', 'LIKE', '%' . $search . '%')
+                ->orWhere('nip', 'LIKE', '%' . $search . '%')
+                ->orWhere('username', 'LIKE', '%' . $search . '%')
+                ->orWhere('role', 'LIKE', '%' . $search . '%')
+                ->get();
+            } else {
+                // Jika tidak ada parameter pencarian, ambil semua pengguna
+                $users = User::all();
+            }
+
             return response()->json($users);
         } catch (\Exception $exception) {
             Log::error('Error fetching users: ' . $exception->getMessage());
@@ -34,7 +49,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         try {
             $validated = $request->validate([
                 'nama' => 'required|string|max:255',

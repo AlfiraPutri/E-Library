@@ -1,10 +1,10 @@
 import React from "react";
 import DataUsers from "../Components/DataUser/DataUsers";
 
-const User = ({ }) => {
+const User = ({ setPageTitle }) => {
     return (
           <div className="area-row ar-two">
-            <DataUsers />
+            <DataUsers setPageTitle={setPageTitle} />
           </div>
 
       );

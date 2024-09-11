@@ -4,6 +4,10 @@ import { BlockWrapStyles } from "../../styles/global/default";
 export const DataUsersWrap = styled.div`
   ${BlockWrapStyles};
   overflow-x: auto; // Scroll horizontal diaktifkan
+//   width: 100%;           // Lebar kontainer diatur 100%
+//   max-width: 1320px;      // Maksimal lebar 1200px
+  margin: 12px;         // Tengah secara horizontal
+  padding: 14px 12px;          // Memberi padding di sekitar konten
 
   &::-webkit-scrollbar {
     height: 8px;
@@ -62,7 +66,7 @@ export const DataUsersWrap = styled.div`
         th,
         td {
           padding: 12px 16px;
-          font-size: 14px;
+          font-size: 30px;
           text-align: left;
           border-bottom: 1px solid #ddd;
           transition: background-color 0.3s;

@@ -36,19 +36,14 @@ class HistoryController extends Controller
         }
     }
 
-    public function getHistory(Request $request)
-    {
-        // Periksa apakah pengguna sudah diautentikasi
-        $user = $request->user();
-    Log::info('User data:', ['user' => $user]);
+    public function getHistory($id)
+{
 
-        if (!$request->user()) {
-        return response()->json(['message' => 'User not authenticated'], 401);
-    }
-
-    // Ambil ID pengguna
-    $id_users = $user()->id_users;
-        $history = History::where('id_users', $request->user()->id_users)->with('buku')->get();
+    try{
+        $history = History::where('id_users', '=', $id)->with('buku')->get();
         return response()->json($history, 200);
-    }
+        }catch(\Exception $exception){
+        return response()->json(['message' => 'Error fetching history: ' . $exception->getMessage()], 500);
+        }
+        }
 }

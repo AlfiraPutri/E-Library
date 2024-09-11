@@ -52,11 +52,11 @@ Route::get('/user/buku/{id}/show', [BukuController::class, 'show']);
 Route::post('/user/{id}/history', [HistoryController::class, 'addToHistory']);
 Route::get('/user/{id}/history', [HistoryController::class, 'getHistory']);
 
-Route::post('/user/favorites', [FavoriteController::class, 'addToFavorites']);
-Route::get('/user/favorites', [FavoriteController::class, 'getFavorites']);
+Route::post('/user/{id}/favorite', [FavoriteController::class, 'addToFavorites']);
+Route::get('/user/{id}/favorite', [FavoriteController::class, 'getFavorites']);
 
-Route::post('/user/downloads', [DownloadController::class, 'addDownload']);
-Route::get('/user/downloads', [DownloadController::class, 'getDownloads']);
+Route::post('/user/{id}/download', [DownloadController::class, 'addDownload']);
+Route::get('/user/{id}/download', [DownloadController::class, 'getDownloads']);
 
 //register
 Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');

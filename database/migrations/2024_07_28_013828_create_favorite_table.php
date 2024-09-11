@@ -11,11 +11,11 @@ class CreateFavoriteTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('favorite', function (Blueprint $table) {
-            $table->id('id_favorite');
-            $table->integer('id_user');
+        Schema::create('favorites', function (Blueprint $table) {
+            $table->id('id_favorites');
+            $table->integer('id_users');
             $table->integer('id_buku');
-            $table->foreign('id_user')->references('id_user')->on('users');
+            $table->foreign('id_users')->references('id_users')->on('users');
             $table->foreign('id_buku')->references('id_buku')->on('buku');
         });
     }
@@ -25,6 +25,6 @@ class CreateFavoriteTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('favorite');
+        Schema::dropIfExists('favorites');
     }
 };

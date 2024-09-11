@@ -21,7 +21,6 @@ const ShowBukuPage = ({auth}) => {
             }
         };
 
-
         fetchBuku();
     }, [id]);
 
@@ -58,6 +57,32 @@ const ShowBukuPage = ({auth}) => {
         }
     };
 
+    const handleAddToFavorites = async () => {
+        try {
+            const response = await axios.post(`http://127.0.0.1:8000/api/user/${auth.user.id_users}/favorite`, {
+                id_buku: buku.id_buku,
+                judul: buku.judul,
+                img_buku: buku.img_buku,
+            });
+            console.log('Buku ditambahkan ke favorit:', response.data);
+        } catch (error) {
+            console.error('Error adding to favorites:', error.response ? error.response.data : error.message);
+        }
+    };
+
+    const handleDownloadClick = async () => {
+        try {
+            const response = await axios.post(`http://127.0.0.1:8000/api/user/${auth.user.id_users}/download`, {
+                id_buku: buku.id_buku,
+                judul: buku.judul,
+                img_buku: buku.img_buku,
+            });
+            console.log('Buku ditambahkan ke download:', response.data);
+        } catch (error) {
+            console.error('Error adding to download:', error.response ? error.response.data : error.message);
+        }
+    };
+
     return (
         <ShowBukuWrap>
 
@@ -67,12 +92,12 @@ const ShowBukuPage = ({auth}) => {
                     <Button primary onClick={handleReadNowClick}>Baca Sekarang</Button>
                     <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
                     {buku.file_upload && (
-                        <a href={pdfUrl} download={buku.judul + '.pdf'}>
+                        <a href={pdfUrl} download={buku.judul + '.pdf'} onClick={handleDownloadClick}>
                             <DownloadButton>📥</DownloadButton>
                         </a>
                     )}
 
-                    <SmileButton>😊</SmileButton>
+                    <SmileButton onClick={handleAddToFavorites}>😊</SmileButton>
                     </div>
                 </LeftColumn>
 

@@ -4,13 +4,22 @@ import { BlockTitle } from "../../styles/global/default";
 import { KoleksiWrap } from "./Koleksi.styles";
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import FormKoleksi from "../FormKoleksi";
+import { useLocation } from 'react-router-dom';
+import DataTable from 'react-data-table-component';
+import Checkbox from '@mui/material/Checkbox';
+import IconButton from '@mui/material/IconButton';
+import ArrowDownward from '@mui/icons-material/ArrowDownward';
+import Delete from '@mui/icons-material/Delete';
 
-
-const Koleksi = () => {
+const Koleksi = ({ setPageTitle }) => {
+  setPageTitle('Daftar Buku')
   const [bukus, setBukus] = useState([]);
   const [isFormKoleksiOpen, setIsFormKoleksiOpen] = useState(false);
   const [currentBuku, setCurrentBuku] = useState(null);
-
+  const [filteredBuku, setFilteredBuku] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [toggleCleared, setToggleCleared] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     fetchBukus();
@@ -26,6 +35,25 @@ const Koleksi = () => {
       console.error('Error fetching data:', error);
     }
   };
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const searchQuery = queryParams.get('search') || '';
+
+    // Jika searchQuery kosong, tampilkan semua data
+    if (searchQuery === '') {
+      setFilteredBuku(bukus);
+    } else {
+      // Filter data berdasarkan nama, NIP, atau username
+      const filteredData = bukus.filter(buku =>
+        buku.judul?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        String(buku.isbn || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+        buku.pengarang?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
+      setFilteredBuku(filteredData); // Update state untuk menampilkan hasil filter
+    }
+  }, [location.search, bukus]);
 
   const handleAddClick = () => {
     setCurrentBuku(null); // Reset current buku before showing the form
@@ -75,16 +103,66 @@ const Koleksi = () => {
     }
   };
 
+  const deleteAll = () => {
+    const ids = selectedRows.map(row => row.id_buku);
+
+    if (window.confirm(`Are you sure you want to delete ${ids.length} bukus?`)) {
+      ids.forEach(id => handleDelete(id));
+      setToggleCleared(!toggleCleared);
+      setSelectedRows([]);
+    }
+  };
+
+  const columns = [
+    {
+      name: 'Judul',
+      selector: row => row.judul,
+      sortable: true,
+    },
+    {
+      name: 'ISBN',
+      selector: row => row.isbn,
+      sortable: true,
+    },
+    {
+      name: 'Pengarang',
+      selector: row => row.pengarang,
+      sortable: true,
+    },
+    {
+      name: 'Actions',
+      cell: row => (
+        <>
+          <IconButton onClick={() => handleEditClick(row)} title="Edit">
+            <FaEdit style={{ color: '#F77D00' }} />
+          </IconButton>
+          <IconButton onClick={() => {
+              if (window.confirm('Are you sure you want to delete this data?')) {
+                handleDelete(row.id_buku);
+              }
+            }}
+            title="Delete">
+
+            <FaTrash style={{ color: '#F77D00' }} />
+          </IconButton>
+        </>
+      ),
+    },
+  ];
+
   return (
     <KoleksiWrap>
       <div className="block-head">
-        <BlockTitle className="block-title">
-          <h3>Koleksi Buku</h3>
-        </BlockTitle>
-        <button className="export-btn" onClick={handleAddClick}>
+        <button type="button" className="export-btn" onClick={handleAddClick}>
           <FaPlus style={{ marginRight: '5px' }} />
           <span className="text">Add</span>
         </button>
+
+        {selectedRows.length > 0 && (
+          <IconButton color="secondary" onClick={deleteAll}>
+            <Delete />
+          </IconButton>
+        )}
       </div>
 
       <FormKoleksi
@@ -93,62 +171,31 @@ const Koleksi = () => {
       onSubmit={handleFormSubmit}
       buku={currentBuku} />
 
-      <div className="tbl-products">
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Judul</th>
-              <th>ISBN</th>
-              <th>Pengarang</th>
-              {/* <th>Penerbit</th>
-              <th>Tanggal Terbit</th>
-              <th>Jumlah Buku</th>
-              <th>Kategori</th>
-              <th>Deskripsi</th>
-              <th>Jumlah Halaman</th>
-              <th>File</th>
-              <th>Gambar</th> */}
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bukus.map((buku, index) => (
-              <tr key={buku.id_buku}>
-                <td>{index + 1}</td>
-                <td>{buku.judul}</td>
-                <td>{buku.isbn}</td>
-                <td>{buku.pengarang}</td>
-                {/* <td>{buku.penerbit}</td>
-                <td>{buku.tanggal_terbit}</td>
-                <td>{buku.jumlah_buku}</td>
-                <td>{buku.kategori_buku}</td>
-                <td>{buku.deskripsi}</td>
-                <td>{buku.jumlah_halaman}</td>
-                <td>{buku.file_upload}</td>
-                <td>{buku.img_buku}</td> */}
-                <td>
-                <a
-                href={`/dashboard/buku/edit/${buku.id_buku}`}
-                title="Edit"
-                style={{ background: 'none', border: 'none', cursor: 'pointer', marginRight: '20px' }}
-                >
-                <FaEdit style={{ color: '#F77D00', marginRight: '10px' }} />
-                </a>
-
-                <button
-                onClick={() => handleDelete(buku.id_buku)}
-                title="Delete"
-                style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-                >
-                <FaTrash style={{ color: '#F77D00' }} />
-                </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+<DataTable
+        // title="Data Pengguna"
+        columns={columns}
+        data={filteredBuku}
+        defaultSortFieldId={1}
+        highlightOnHover
+        pagination
+        customStyles={{
+            headCells: {
+              style: {
+                backgroundColor: '#F77D00',  // Warna oranye untuk header
+                color: '#ffffff',            // Warna teks putih
+                fontSize: '16px',            // Ukuran font
+                fontWeight: 'bold',          // Tebal font
+                padding: '10px',             // Jarak di dalam header
+              },
+            },
+          }}
+        selectableRows
+        selectableRowsComponent={Checkbox}
+        selectableRowsComponentProps={{ indeterminate: isIndeterminate => isIndeterminate }}
+        onSelectedRowsChange={state => setSelectedRows(state.selectedRows)}
+        clearSelectedRows={toggleCleared}
+        sortIcon={<ArrowDownward />}
+      />
     </KoleksiWrap>
   );
 };

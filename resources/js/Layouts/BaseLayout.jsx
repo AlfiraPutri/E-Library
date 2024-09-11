@@ -17,11 +17,14 @@ import DownloadUser from "../Components/dashboard/SalesBlock/DownloadUser";
 import FavoriteUser from "../Components/dashboard/SalesBlock/FavoriteUser";
 import ShowBukuPage from "../Pages/ShowBuku";
 import FlipBukuPage from "../Pages/FlipBuku";
-
+import * as React from 'react';
+import { useState, useEffect } from "react";
 
 const BaseLayout = ({auth}) => {
   console.log("🚀 ~ BaseLayout ~ auth:", auth)
+
   const location = useLocation();
+  const [pageTitle, setPageTitle] = useState('');
 
   // Determine if the current route is /dashboard/buku/edit
   const isEditBukuRoute = location.pathname.startsWith('/dashboard/buku/edit');
@@ -29,6 +32,33 @@ const BaseLayout = ({auth}) => {
 
   // Determine if the current route is /user/dashboard
  const isUserRoute = location.pathname.startsWith('/user');
+ const isProfileRoute = location.pathname.startsWith('/dashboard/profile') || location.pathname.startsWith('/user/profile');
+
+ // Extract query params including 'search'
+ const searchParams = new URLSearchParams(location.search);
+ const searchQuery = searchParams.get('search'); // Get the search query if exists
+
+ // Function to set the page title dynamically
+ useEffect(() => {
+    let title = "Dashboard"; // Default title
+
+    if (location.pathname.startsWith('/dashboard/user')) {
+      title = searchQuery ? `Search Results for: ${searchQuery}` : "User Management";
+    } else if (location.pathname.startsWith('/dashboard/buku')) {
+      title = searchQuery ? `Search Buku: ${searchQuery}` : "Book Collection";
+    } else if (location.pathname.startsWith('/dashboard/kategori')) {
+      title = searchQuery ? `Search Kategori: ${searchQuery}` : "Category Management";
+    } else if (location.pathname.startsWith('/dashboard')) {
+      title = "Dashboard";
+    } else if (location.pathname.startsWith('/user')) {
+      title = "User Dashboard";
+    }
+
+ // Set the document's title
+ document.title = title;
+ setPageTitle(title);
+}, [location, searchQuery]);
+
 
   return (
     <div className="page-wrapper">
@@ -36,25 +66,26 @@ const BaseLayout = ({auth}) => {
       <div className="content-wrapper">
 
         {/* Hide AppBar if on /user/dashboard route */}
-        {!isUserRoute && <AppBar />}
+        {!isProfileRoute && !isUserRoute && <AppBar  pageTitle={pageTitle} setPageTitle={setPageTitle} />}
 
 
         <Outlet />
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/dashboard/user" element={<User />} />
-          <Route path="/dashboard/buku" element={<Koleksi />} />
-          <Route path="/dashboard/kategori" element={<Kategori />} />
+          <Route path="/dashboard/user" element={<User setPageTitle={setPageTitle} />} />
+          <Route path="/dashboard/buku" element={<Koleksi setPageTitle={setPageTitle} />} />
+          <Route path="/dashboard/kategori" element={<Kategori setPageTitle={setPageTitle} />} />
           <Route path="/dashboard/review" element={<Review />} />
           <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="/dashboard/buku/edit/:id" element={<BukuDetailsPage />} />
           <Route path="/dashboard/user/edit/:id" element={<UserDetailsPage />} />
 
+
           {/* Routes for user dashboard */}
           <Route path="/user/:id/dashboard" element={<DashboardUser />} />
           <Route path="/user/history" element={<LibraryUser  auth={auth}/>} />
-          <Route path="/user/download" element={<DownloadUser />} />
-          <Route path="/user/favorite" element={<FavoriteUser />} />
+          <Route path="/user/download" element={<DownloadUser auth={auth}/>} />
+          <Route path="/user/favorite" element={<FavoriteUser auth={auth}/>} />
           <Route path="/user/profile" element={<DashboardUser />} />
           <Route path="/user/buku/:id/show" element={<ShowBukuPage auth={auth}/>} />
           <Route path="/user/flipbook/:id" element={<FlipBukuPage />} />

@@ -15,6 +15,7 @@ const SalesBlock = () => {
     const [totalUsers, setTotalUsers] = useState(0);
     const [totalBuku, setTotalBuku] = useState(0);
     const [totalKategori, setTotalKategori] = useState(0);
+    const [totalBukuTerbaca, setTotalBukuTerbaca] = useState(0);
 
     useEffect(() => {
         const fetchTotalUsers = async () => {
@@ -55,6 +56,25 @@ const SalesBlock = () => {
           };
 
           fetchTotalKategori();
+
+          const fetchTotalBukuTerbaca = async () => {
+            try {
+                // Fetch history data for all users
+                const response = await axios.get('http://127.0.0.1:8000/api/user/{id}/history');
+                const history = response.data;
+
+                // Use a Set to track unique book IDs
+                const uniqueBooks = new Set(history.map(entry => entry.id_buku));
+
+                // Set the total number of unique books read
+                setTotalBukuTerbaca(uniqueBooks.size);
+            } catch (error) {
+                console.error('Error fetching history data:', error);
+            }
+        };
+
+        fetchTotalBukuTerbaca();
+
       }, []);
 
   return (
@@ -93,7 +113,7 @@ const SalesBlock = () => {
             <div className="card-item-icon">
               <img src={Icons.CardProduct} alt="" />
             </div>
-            <div className="card-item-value">5</div>
+            <div className="card-item-value">{totalBukuTerbaca}</div>
             <p className="card-item-text text">Total Buku Terbaca</p>
           </div>
           <div className="card-item card-pale-purple">

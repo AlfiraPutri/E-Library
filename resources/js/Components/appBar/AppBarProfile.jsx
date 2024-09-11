@@ -15,7 +15,7 @@ const AppBarProfile = () => {
             <span>Musfiq</span>
             <span>Admin</span>
           </div>
-          
+
         </div>
       </div>
     </div>

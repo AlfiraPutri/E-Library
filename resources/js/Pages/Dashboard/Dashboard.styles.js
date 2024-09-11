@@ -7,7 +7,7 @@ export const DashboardScreenWrap = styled.main`
     margin-bottom: 20px;
     display: grid;
     gap: 20px;
-    
+
 
     ${media.xxxl`
       margin-bottom: 16px;

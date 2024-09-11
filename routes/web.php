@@ -101,7 +101,7 @@ Route::get('/user/buku/{id_buku}/show', function ($id) {
 
 Route::get('/user/history', function () {
     return Inertia::render('BaseLayout', ['child' => 'LibraryUser']);
-});
+})->middleware(['auth', 'verified'])->name('user.history');;
 
 Route::get('/user/download', function () {
     return Inertia::render('BaseLayout', ['child' => 'DashboardUser']);

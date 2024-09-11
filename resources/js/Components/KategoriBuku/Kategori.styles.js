@@ -5,6 +5,8 @@ import { media } from "../../styles/theme/theme";
 export const KategoriWrap = styled.div`
   ${BlockWrapStyles};
   overflow-x: auto;
+  margin: 12px;         // Tengah secara horizontal
+  padding: 14px 12px;          // Memberi padding di sekitar konten
 
   &::-webkit-scrollbar {
     height: 8px;

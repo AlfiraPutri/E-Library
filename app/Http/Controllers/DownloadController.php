@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Buku;
 use App\Models\Download;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -9,19 +10,41 @@ use Illuminate\Validation\ValidationException;
 
 class DownloadController extends Controller
 {
-    public function addDownload(Request $request)
+    public function addDownload(Request $request, $id)
     {
-        $download = new Download();
-        $download->id_users = $request->user()->id;
-        $download->id_buku = $request->id_buku;
-        $download->save();
+        Log::info('Data yang diterima:', $request->all());
 
-        return response()->json(['message' => 'Download recorded'], 200);
+        try {
+            // Memastikan buku yang dimaksud ada
+            $id_buku = $request->input('id_buku');
+
+
+        $buku = Buku::find($id_buku);
+        if (!$buku) {
+            return response()->json(['message' => 'Buku tidak ditemukan'], 404);
+        }
+
+            // Menyimpan riwayat buku yang telah dibaca oleh pengguna
+            Download::create([
+                'id_users' => $id,
+                'id_buku' => $request->input('id_buku'),
+                'created_at' => now(), // Menyimpan tanggal dan waktu saat buku dibaca
+            ]);
+
+            return response()->json(['message' => 'Added to download'], 200);
+        } catch (\Exception $exception) {
+            return response()->json(['message' => 'Failed: ' . $exception->getMessage()], 500);
+        }
     }
 
-    public function getDownloads(Request $request)
+    public function getDownloads($id)
     {
-        $downloads = Download::where('id_users', $request->users()->id)->with('buku')->get();
-        return response()->json($downloads, 200);
-    }
+
+        try{
+            $downloads = Download::where('id_users', '=', $id)->with('buku')->get();
+            return response()->json($downloads, 200);
+            }catch(\Exception $exception){
+            return response()->json(['message' => 'Error fetching downloads: ' . $exception->getMessage()], 500);
+            }
+            }
 }

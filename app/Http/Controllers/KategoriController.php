@@ -15,10 +15,23 @@ class KategoriController extends Controller
     /**
      * Menampilkan daftar semua kategori.
      */
-    public function index()
+    public function index(Request $request)
 {
     try {
-        $kategori = Kategori::withCount('buku')->get(); // Menggunakan withCount untuk menghitung jumlah buku
+        // Ambil parameter pencarian dari request
+        $search = $request->input('search');
+
+        // Jika ada parameter pencarian, filter kategori berdasarkan nama_kategori
+        if ($search) {
+            $kategori = Kategori::where('nama_kategori', 'LIKE', '%' . $search . '%')
+                ->withCount('buku')
+                ->get();
+        } else {
+            // Jika tidak ada pencarian, ambil semua kategori
+            $kategori = Kategori::withCount('buku')->get();
+        }
+        
+        //$kategori = Kategori::withCount('buku')->get(); // Menggunakan withCount untuk menghitung jumlah buku
 
         // Membuat respon dengan menambahkan jumlah buku ke dalam setiap kategori
         $kategori = $kategori->map(function($kategori) {

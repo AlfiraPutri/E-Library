@@ -1,112 +1,59 @@
 import React, { useState, useEffect } from 'react';
 import { BlockContentWrap, BlockTitle } from "../../../styles/global/default";
-import { SalesBlockWrap } from "./Sales.styles";
+import { SalesUserWrap } from "./HomeUser.styles";
 import axios from 'axios';
 
-const Icons = {
-    ExportDark: '/icons/export_dark.svg',
-    CardSales: '/icons/card_sales.svg',
-    CardOrder: '/icons/card_order.svg',
-    CardProduct: '/icons/card_product.svg',
-    CardCustomer: '/icons/card_customer.svg',
-}
-
-const FavoriteUser = () => {
-    const [totalUsers, setTotalUsers] = useState(0);
-    const [totalBuku, setTotalBuku] = useState(0);
-    const [totalKategori, setTotalKategori] = useState(0);
+const FavoriteUser = ({ auth }) => {
+    const [favorite, setFavorite] = useState([]);
 
     useEffect(() => {
-        const fetchTotalUsers = async () => {
-          try {
-            // Ganti URL dengan endpoint API yang sesuai
-            const response = await axios.get('http://127.0.0.1:8000/api/user');
-            const users = response.data;
-            setTotalUsers(users.length); // Pastikan respons API memiliki format yang sesuai
-          } catch (error) {
-            console.error('Error fetching user data:', error);
-          }
+        const fetchFavorite = async () => {
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/api/user/${auth.user.id_users.toString()}/favorite`);
+                console.log('Fetched favorite data:', response);
+                // Sort by created_at (descending) to get the latest records first
+                const sortedFavorite = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+                // Use a map to store unique books by id_buku (only the latest record will be kept)
+                const uniqueFavorite = new Map();
+                sortedFavorite.forEach(entry => {
+                    if (!uniqueFavorite.has(entry.id_buku)) {
+                        uniqueFavorite.set(entry.id_buku, entry);
+                    }
+                });
+
+                // Set favorite as an array of unique entries
+                setFavorite([...uniqueFavorite.values()]);
+            } catch (error) {
+                console.error('Error fetching favorite:', error.response ? error.response.data : error.message);
+            }
         };
 
-        fetchTotalUsers();
+        fetchFavorite();
+    }, [auth.user.id_users]);
 
-        const fetchTotalBuku = async () => {
-            try {
-              // Ganti URL dengan endpoint API yang sesuai
-              const response = await axios.get('http://127.0.0.1:8000/api/buku');
-              const buku = response.data;
-              setTotalBuku(buku.length); // Pastikan respons API memiliki format yang sesuai
-            } catch (error) {
-              console.error('Error fetching buku data:', error);
-            }
-          };
-
-          fetchTotalBuku();
-
-          const fetchTotalKategori = async () => {
-            try {
-              // Ganti URL dengan endpoint API yang sesuai
-              const response = await axios.get('http://127.0.0.1:8000/api/kategori');
-              const category = response.data;
-              setTotalKategori(category.length); // Pastikan respons API memiliki format yang sesuai
-            } catch (error) {
-              console.error('Error fetching kategori data:', error);
-            }
-          };
-
-          fetchTotalKategori();
-      }, []);
-
-  return (
-    <SalesBlockWrap>
-      <div className="block-head">
-        <div className="block-head-l">
-          <BlockTitle className="block-title">
-            <h3>Overview</h3>
-          </BlockTitle>
-          <p className="text">Temukan ringkasanya</p>
-        </div>
-        <div className="block-head-r">
-          <button type="button" className="export-btn">
-            <img src={Icons.ExportDark} alt="" />
-            <span className="text">Export</span>
-          </button>
-        </div>
-      </div>
-      <BlockContentWrap>
-        <div className="cards">
-          <div className="card-item card-misty-rose">
-            <div className="card-item-icon">
-              <img src={Icons.CardSales} alt="" />
+    return (
+        <SalesUserWrap>
+            <div className="block-head">
+                <div className="block-head-l">
+                    <BlockTitle className="block-title">
+                        <h3>Favorite Buku</h3>
+                    </BlockTitle>
+                    <p className="text">Temukan buku favorite</p>
+                </div>
             </div>
-            <div className="card-item-value">{totalUsers}</div>
-            <p className="card-item-text text">Total User</p>
-          </div>
-          <div className="card-item card-latte">
-            <div className="card-item-icon">
-              <img src={Icons.CardOrder} alt="" />
-            </div>
-            <div className="card-item-value">{totalBuku}</div>
-            <p className="card-item-text text">Total Book</p>
-          </div>
-          <div className="card-item card-nyanza">
-            <div className="card-item-icon">
-              <img src={Icons.CardProduct} alt="" />
-            </div>
-            <div className="card-item-value">5</div>
-            <p className="card-item-text text">Total Buku Terbaca</p>
-          </div>
-          <div className="card-item card-pale-purple">
-            <div className="card-item-icon">
-              <img src={Icons.CardCustomer} alt="" />
-            </div>
-            <div className="card-item-value">{totalKategori}</div>
-            <p className="card-item-text text">Total Kategori</p>
-          </div>
-        </div>
-      </BlockContentWrap>
-    </SalesBlockWrap>
-  );
+            <BlockContentWrap>
+                <div className="book-collection">
+                    {favorite.map((entry) => (
+                        <div key={entry.id} className="book-item">
+                            <img src={`http://127.0.0.1:8000/storage/${entry.buku.img_buku}`} className="book-image" alt="Book Cover" />
+                            <p className="book-title">{entry.buku.judul}</p>
+                        </div>
+                    ))}
+                </div>
+            </BlockContentWrap>
+        </SalesUserWrap>
+    );
 };
 
 export default FavoriteUser;
