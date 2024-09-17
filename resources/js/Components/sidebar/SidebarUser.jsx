@@ -52,7 +52,7 @@ const SidebarUser = () => {
           <ul className="menu-list">
             <li className="menu-item">
               <NavLink
-                to={`/user/${id}/dashboard`}
+                to={`/user/dashboard`}
                 className={({ isActive }) => `menu-link ${isActive ? 'active' : ''}`}
                 end
               >

@@ -6,7 +6,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -62,7 +64,16 @@ class UserController extends Controller
                 'username' => 'required|string|max:255|unique:users,username',
                 'password' => 'required|string|min:8',
                 'role' => 'required|string|in:admin,pegawai',
+                'img_user' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
+
+            $img_user = null;
+            if ($request->hasFile('img_user')) {
+                $image = $request->file('img_user');
+                $imageName = Str::random(32) . '.' . $image->getClientOriginalExtension();
+                $img_user = $image->storeAs('public/profile', $imageName);
+                $img_user = str_replace('public/', '', $img_user); // Simpan path relatif
+            }
 
             $user = User::create([
                 'nama' => $validated['nama'],
@@ -75,6 +86,7 @@ class UserController extends Controller
                 'username' => $validated['username'],
                 'password' => Hash::make($validated['password']),
                 'role' => $validated['role'],
+                'img_user' => $img_user,
             ]);
 
             return response()->json($user, 201);
@@ -96,6 +108,11 @@ class UserController extends Controller
     {
         try {
             $user = User::findOrFail($id);
+            if ($user->img_user) {
+                $user->img_user = Storage::url($user->img_user);
+            }
+
+
             return response()->json($user);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $exception) {
             return response()->json(['status' => 404, 'message' => 'User not found!'], 404);
@@ -126,9 +143,23 @@ class UserController extends Controller
             'username' => 'nullable|string|max:255|unique:users,username,' . $id . ',id_users',
             'password' => 'nullable|string|min:8',
             'role' => 'nullable|string|in:admin,pegawai',
+            'img_user' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $user = User::findOrFail($id);
+
+        if ($request->hasFile('img_user')) {
+            // Hapus gambar lama jika ada
+            if ($user->img_user) {
+                Storage::delete('public/' . $user->img_user);
+            }
+
+            $image = $request->file('img_user');
+            $imageName = Str::random(32) . '.' . $image->getClientOriginalExtension();
+            $img_user = $image->storeAs('public/profile', $imageName);
+            $img_user = str_replace('public/', '', $img_user);
+            $user->img_user = $img_user;
+        }
 
         $user->update([
             'nama' => $validated['nama'],
@@ -160,6 +191,11 @@ class UserController extends Controller
     {
         try {
             $user = User::findOrFail($id);
+
+            if ($user->img_user) {
+                Storage::delete('public/' . $user->img_user);
+            }
+            
             $user->delete();
             return response()->json(null, 204);
         } catch (\Exception $exception) {
@@ -168,3 +204,4 @@ class UserController extends Controller
         }
     }
 }
+

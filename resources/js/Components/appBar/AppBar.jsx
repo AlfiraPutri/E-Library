@@ -13,9 +13,10 @@ const Icons = {
     // NotificationOrange: '/icons/notification_orange.svg',
 }
 
-const AppBar = ({ pageTitle, setPageTitle }) => {
+const AppBar = ({ pageTitle, setPageTitle, userProfile }) => {
     const [searchQuery, setSearchQuery] = useState(""); // State untuk query pencarian
     const [debouncedQuery, setDebouncedQuery] = useState(searchQuery); // State untuk debounced query
+    const [isSearching, setIsSearching] = useState(false);
     const inputControlRef = useRef(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -37,33 +38,23 @@ const AppBar = ({ pageTitle, setPageTitle }) => {
 
     // Effect to trigger search when debounced query changes, but only in /dashboard/user route
     useEffect(() => {
+      if (!isSearching) return;
+
       const isUserPage = location.pathname.startsWith('/dashboard/user');
       const isKategoriPage = location.pathname.startsWith('/dashboard/kategori');
       const isBukuPage = location.pathname.startsWith('/dashboard/buku');
 
       if (isUserPage) {
-        if (debouncedQuery.trim()) {
-          navigate(`/dashboard/user?search=${debouncedQuery}`);
-        } else {
-          navigate(`/dashboard/user`);
-        }
+        navigate(debouncedQuery.trim() ? `/dashboard/user?search=${debouncedQuery}` : `/dashboard/user`);
         setPageTitle('Dashboard');
       } else if (isBukuPage) {
-        if (debouncedQuery.trim()) {
-          navigate(`/dashboard/buku?search=${debouncedQuery}`);
-        } else {
-          navigate(`/dashboard/buku`);
-        }
+        navigate(debouncedQuery.trim() ? `/dashboard/buku?search=${debouncedQuery}` : `/dashboard/buku`);
         setPageTitle('Daftar Buku');
       } else if (isKategoriPage) {
-        if (debouncedQuery.trim()) {
-          navigate(`/dashboard/kategori?search=${debouncedQuery}`);
-        } else {
-          navigate(`/dashboard/kategori`);
-        }
+        navigate(debouncedQuery.trim() ? `/dashboard/kategori?search=${debouncedQuery}` : `/dashboard/kategori`);
         setPageTitle('Kategori Buku');
       }
-    }, [debouncedQuery, navigate, location.pathname]);
+    }, [debouncedQuery, navigate, location.pathname, isSearching]);
 
     useEffect(() => {
       const handleClickOutside = (event) => {
@@ -74,12 +65,18 @@ const AppBar = ({ pageTitle, setPageTitle }) => {
           event.target.className !== "input-icon-img"
         ) {
           setShowInputControl(false);
+          setIsSearching(false);
         }
       };
 
       window.addEventListener("click", handleClickOutside);
       return () => window.removeEventListener("click", handleClickOutside);
     }, []);
+
+    const handleSearchInputChange = (e) => {
+        setSearchQuery(e.target.value);
+        setIsSearching(true); // Set flag pencarian ke true saat input berubah
+      };
 
     return (
       <AppBarWrap>
@@ -112,7 +109,7 @@ const AppBar = ({ pageTitle, setPageTitle }) => {
                     ref={inputControlRef}
                     type="text"
                     value={searchQuery} // Bind the input value to searchQuery state
-                    onChange={(e) => setSearchQuery(e.target.value)} // Update searchQuery state on input change
+                    onChange={handleSearchInputChange}
                     placeholder="Search here ..."
                     className={`input-control ${
                       showInputControl ? "show-input-control" : ""
@@ -121,7 +118,7 @@ const AppBar = ({ pageTitle, setPageTitle }) => {
                 </div>
               </form>
             </div>
-            <AppBarProfile />
+            <AppBarProfile  userProfile={userProfile}/>
           </div>
         </div>
       </AppBarWrap>

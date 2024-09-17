@@ -42,6 +42,13 @@ const CustomDialogTitle = styled(DialogTitle)(({ theme }) => ({
     },
   }));
 
+  const GridContainer = styled('div')({
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr', // Dua kolom yang sama besar
+    gap: '20px', // Jarak antara kolom
+
+  });
+
   // Main form component
   export default function FormKoleksi({ open, handleClose, onSubmit, buku }) {
     // Form data state
@@ -172,13 +179,20 @@ const CustomDialogTitle = styled(DialogTitle)(({ theme }) => ({
 
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md"
+    PaperProps={{
+        style: {
+          borderRadius: '20px', // Mengatur border-radius sesuai kebutuhan
+        },
+      }}>
       <CustomDialogTitle>{buku ? 'Edit Koleksi' : 'Tambah Koleksi'}</CustomDialogTitle>
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <CustomDialogContent>
+      <CustomDialogContent>
           <DialogContentText>
             Silakan isi detail berikut untuk {buku ? 'mengubah' : 'menambahkan'} koleksi buku.
           </DialogContentText>
+
+          <form onSubmit={handleSubmit} encType="multipart/form-data">
+          <GridContainer>
           <TextField
             autoFocus
             required
@@ -315,12 +329,15 @@ const CustomDialogTitle = styled(DialogTitle)(({ theme }) => ({
             accept=".pdf,.epub"
             onChange={handleFileChange}
           />
-        </CustomDialogContent>
+          </GridContainer>
+
         <DialogActions>
           <CustomCancelButton onClick={handleClose}>Batal</CustomCancelButton>
           <CustomButton type="submit">Submit</CustomButton>
+
         </DialogActions>
-      </form>
+        </form>
+        </CustomDialogContent>
     </Dialog>
   );
 }

@@ -27,8 +27,11 @@ Route::get('/kategori/{id}', [KategoriController::class, 'getJumlahBukuByKategor
 Route::get('/user', [UserController::class, 'index']);
 Route::get('/user/{id}/show', [UserController::class, 'show']);
 Route::post('/user', [UserController::class, 'store']);
-Route::post('/user/{id}/edit', [UserController::class, 'update']);
+Route::post('/user/{id}', [UserController::class, 'update']);
 Route::delete('/user/{id}', [UserController::class, 'destroy']);
+Route::middleware('web')->get('/profile', [UserController::class, 'getProfile']);
+
+
 
 
 //api review

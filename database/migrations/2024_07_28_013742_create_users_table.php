@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('alamat')->nullable();
             $table->string('email')->unique();
             $table->string('jabatan')->nullable();
+            $table->string('img_user')->nullable();
             $table->string('username')->unique();
             $table->string('password');
             // $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));

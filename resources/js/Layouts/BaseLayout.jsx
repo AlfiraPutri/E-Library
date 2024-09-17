@@ -25,6 +25,7 @@ const BaseLayout = ({auth}) => {
 
   const location = useLocation();
   const [pageTitle, setPageTitle] = useState('');
+  const [userProfile, setUserProfile]= useState(null);
 
   // Determine if the current route is /dashboard/buku/edit
   const isEditBukuRoute = location.pathname.startsWith('/dashboard/buku/edit');
@@ -43,16 +44,21 @@ const BaseLayout = ({auth}) => {
     let title = "Dashboard"; // Default title
 
     if (location.pathname.startsWith('/dashboard/user')) {
-      title = searchQuery ? `Search Results for: ${searchQuery}` : "User Management";
+      title = "Daftar Pengguna";
     } else if (location.pathname.startsWith('/dashboard/buku')) {
-      title = searchQuery ? `Search Buku: ${searchQuery}` : "Book Collection";
+      title = "Daftar Buku";
     } else if (location.pathname.startsWith('/dashboard/kategori')) {
-      title = searchQuery ? `Search Kategori: ${searchQuery}` : "Category Management";
+      title = "Category Management";
     } else if (location.pathname.startsWith('/dashboard')) {
       title = "Dashboard";
     } else if (location.pathname.startsWith('/user')) {
       title = "User Dashboard";
-    }
+    } else if (location.pathname.startsWith('/dashboard/buku/edit/{id_buku}')) {
+        title = "Edit Buku";
+      }
+      if(auth){
+        setUserProfile(auth)
+      }
 
  // Set the document's title
  document.title = title;
@@ -62,11 +68,13 @@ const BaseLayout = ({auth}) => {
 
   return (
     <div className="page-wrapper">
-      {!isEditBukuRoute && !isEditUserRoute && (isUserRoute ? <SidebarUser /> : <Sidebar />)}
+      {!isEditUserRoute && (isUserRoute ? <SidebarUser /> : <Sidebar />)}
       <div className="content-wrapper">
 
         {/* Hide AppBar if on /user/dashboard route */}
-        {!isProfileRoute && !isUserRoute && <AppBar  pageTitle={pageTitle} setPageTitle={setPageTitle} />}
+        {!isProfileRoute && !isUserRoute && !isEditBukuRoute && (
+            <AppBar userProfile={userProfile} pageTitle={pageTitle} setPageTitle={setPageTitle} />
+        )}
 
 
         <Outlet />
@@ -77,12 +85,12 @@ const BaseLayout = ({auth}) => {
           <Route path="/dashboard/kategori" element={<Kategori setPageTitle={setPageTitle} />} />
           <Route path="/dashboard/review" element={<Review />} />
           <Route path="/dashboard/profile" element={<Profile />} />
-          <Route path="/dashboard/buku/edit/:id" element={<BukuDetailsPage />} />
+          <Route path="/dashboard/buku/edit/:id" element={<BukuDetailsPage setPageTitle={setPageTitle}/>} />
           <Route path="/dashboard/user/edit/:id" element={<UserDetailsPage />} />
 
 
           {/* Routes for user dashboard */}
-          <Route path="/user/:id/dashboard" element={<DashboardUser />} />
+          <Route path="/user/dashboard" element={<DashboardUser />} />
           <Route path="/user/history" element={<LibraryUser  auth={auth}/>} />
           <Route path="/user/download" element={<DownloadUser auth={auth}/>} />
           <Route path="/user/favorite" element={<FavoriteUser auth={auth}/>} />

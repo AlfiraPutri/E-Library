@@ -3,7 +3,9 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { SettingsContainer, ProfileSection, ProfileImage, FormField, FormSection, ButtonContainer } from './EditBuku.styles';
 
-const EditBukuPage = () => {
+
+const EditBukuPage = ({ setPageTitle }) => {
+   // setPageTitle('Edit Buku')
     const params = useParams();
     const { id } = params;
     const [preview, setPreview] = useState(null);
@@ -23,6 +25,10 @@ const EditBukuPage = () => {
         file_upload: null,
         img_buku: null,
     });
+
+    useEffect(() => {
+        setPageTitle('Edit Buku'); // Pindahkan setPageTitle ke dalam useEffect
+    }, [setPageTitle]);
 
     // Fetch data buku berdasarkan ID pada saat komponen mount
     useEffect(() => {
@@ -150,7 +156,7 @@ const EditBukuPage = () => {
                                 height: '100%',
                                 objectFit: 'cover',
                             }}
-                           
+
                         />
                     </div>
                     <input

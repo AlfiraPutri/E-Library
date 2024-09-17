@@ -31,7 +31,7 @@ Route::get('/dashboard', function () {
     return Inertia::render('BaseLayout', ['child' => 'Dashboard']);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/user/{id_users}/dashboard', function () {
+Route::get('/user/dashboard', function () {
     return Inertia::render('BaseLayout', ['child' => 'DashboardUser']);
 })->middleware(['auth', 'verified'])->name('user.dashboard');
 
@@ -89,7 +89,7 @@ Route::get('/dashboard/profile', function () {
 });
 
 //DashboardUser
-Route::get('/user/{id_users}/dashboard', function () {
+Route::get('/user/dashboard', function () {
     return Inertia::render('BaseLayout', ['child' => 'DashboardUser']);
 });
 
@@ -101,7 +101,7 @@ Route::get('/user/buku/{id_buku}/show', function ($id) {
 
 Route::get('/user/history', function () {
     return Inertia::render('BaseLayout', ['child' => 'LibraryUser']);
-})->middleware(['auth', 'verified'])->name('user.history');;
+})->middleware(['auth', 'verified'])->name('user.history');
 
 Route::get('/user/download', function () {
     return Inertia::render('BaseLayout', ['child' => 'DashboardUser']);
@@ -126,6 +126,7 @@ Route::middleware('auth')->group(function () {
       Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
       Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 
 
 Route::middleware('guest')->group(function () {

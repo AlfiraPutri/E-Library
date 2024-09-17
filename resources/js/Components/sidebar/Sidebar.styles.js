@@ -37,14 +37,15 @@ export const SidebarWrap = styled.div`
   }
 
   .brand-logo {
-    background: ${(props) => props.theme.colors.blue};
-    border-radius: 8px;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    place-content: center;
+    // background: ${(props) => props.theme.colors.blue};
+    // border-radius: 8px;
+    // width: 40px;
+    // height: 40px;
+    // display: flex;
+    // place-content: center;
     img {
-      width: 24px;
+      width: 50px;
+      height: 50px;
     }
   }
 
@@ -52,6 +53,8 @@ export const SidebarWrap = styled.div`
     font-size: 24px;
     font-weight: 600;
     color: ${(props) => props.theme.colors.cadet};
+    font-family: 'Poppins', sans-serif;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 
     ${media.xxl`
       display: inline;

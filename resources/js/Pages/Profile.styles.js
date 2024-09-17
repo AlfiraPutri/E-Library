@@ -5,22 +5,49 @@ export const ProfileWrap = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background-color: #f9f9f9;
+`;
+
+export const ProfileCard = styled.div`
+  width: 100%;
+  max-width: 1320px;
+  background-color: #fff;
+  padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 1100px;
-  margin: auto;
-  border: 1px solid #ddd;
+  margin-bottom: 20px;
+  text-align: center;
+`;
+
+export const TwoCardContainer = styled.div`
+
+  justify-content: space-between;
+  width: 100%;
+  gap: 20px;
+
+`;
+
+export const Card = styled.div`
+  flex: 1;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 `;
 
 export const Form = styled.form`
-  display: flex;
-  flex-direction: column;
+  display: flex;  /* Set to flex to align children side by side */
+  flex-wrap: wrap;  /* Allows wrapping of items if necessary */
   width: 100%;
+  gap: 20px;  /* Adds space between input groups */
 `;
 
 export const InputGroup = styled.div`
+flex: 1 1 45%;
   margin-bottom: 15px;
+  margin-bottom: 15px;
+  margin-right: 20px;  /* Adds space between columns */
+  min-width: 250px;  /* Ensures minimum width for each input */
 `;
 
 export const Label = styled.label`
@@ -66,7 +93,6 @@ export const ErrorMessage = styled.p`
   margin-bottom: 15px;
 `;
 
-// Styling untuk gambar profil
 export const ProfileImage = styled.div`
   display: flex;
   justify-content: center;
@@ -91,7 +117,6 @@ export const ProfileImage = styled.div`
   }
 `;
 
-// Styling untuk tombol upload
 export const UploadButton = styled.input`
   margin-top: 10px;
   border: none;
@@ -101,10 +126,10 @@ export const UploadButton = styled.input`
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
-  
 
   &:hover {
     background-color: #0056b3;
+    color: white;
   }
 
   &:focus {

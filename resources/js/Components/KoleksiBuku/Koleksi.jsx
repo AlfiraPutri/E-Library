@@ -4,7 +4,7 @@ import { BlockTitle } from "../../styles/global/default";
 import { KoleksiWrap } from "./Koleksi.styles";
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import FormKoleksi from "../FormKoleksi";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
@@ -12,7 +12,7 @@ import ArrowDownward from '@mui/icons-material/ArrowDownward';
 import Delete from '@mui/icons-material/Delete';
 
 const Koleksi = ({ setPageTitle }) => {
-  setPageTitle('Daftar Buku')
+ // setPageTitle('Daftar Buku')
   const [bukus, setBukus] = useState([]);
   const [isFormKoleksiOpen, setIsFormKoleksiOpen] = useState(false);
   const [currentBuku, setCurrentBuku] = useState(null);
@@ -20,6 +20,12 @@ const Koleksi = ({ setPageTitle }) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [toggleCleared, setToggleCleared] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Update title hanya di dalam useEffect
+    setPageTitle('Daftar Buku');
+  }, [setPageTitle]);
 
   useEffect(() => {
     fetchBukus();
@@ -50,7 +56,6 @@ const Koleksi = ({ setPageTitle }) => {
         String(buku.isbn || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
         buku.pengarang?.toLowerCase().includes(searchQuery.toLowerCase())
       );
-
       setFilteredBuku(filteredData); // Update state untuk menampilkan hasil filter
     }
   }, [location.search, bukus]);
@@ -94,6 +99,11 @@ const Koleksi = ({ setPageTitle }) => {
         }
     }
 
+    // const handleEditClick = (buku) => {
+    //     navigate(`/dashboard/buku/edit/${buku.id_buku}`); // Navigate to the edit page with the book ID
+    //   };
+
+
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://127.0.0.1:8000/api/buku/${id}`);
@@ -133,7 +143,7 @@ const Koleksi = ({ setPageTitle }) => {
       name: 'Actions',
       cell: row => (
         <>
-          <IconButton onClick={() => handleEditClick(row)} title="Edit">
+          <IconButton component={Link} to={`/dashboard/buku/edit/${row.id_buku}`} title="Edit">
             <FaEdit style={{ color: '#F77D00' }} />
           </IconButton>
           <IconButton onClick={() => {

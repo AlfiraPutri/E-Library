@@ -14,7 +14,7 @@ import Add from '@mui/icons-material/Add';
 
 
 const DataUsers = ({ setPageTitle }) => {
-  setPageTitle('Data Pengguna');
+//  setPageTitle('Data Pengguna');
   const [pengguna, setUser] = useState([]);
   const [filteredPengguna, setFilteredPengguna] = useState([]);
   const [isFormUserOpen, setIsFormUserOpen] = useState(false);
@@ -22,6 +22,11 @@ const DataUsers = ({ setPageTitle }) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [toggleCleared, setToggleCleared] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    // Update title hanya di dalam useEffect
+    setPageTitle('Daftar User');
+  }, [setPageTitle]);
 
   useEffect(() => {
     fetchUser();
@@ -36,7 +41,8 @@ const DataUsers = ({ setPageTitle }) => {
     }
   };
 
-  useEffect(() => {
+
+useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const searchQuery = queryParams.get('search') || '';
 
@@ -48,7 +54,6 @@ const DataUsers = ({ setPageTitle }) => {
         String(users.nip || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
         users.username?.toLowerCase().includes(searchQuery.toLowerCase())
       );
-
       setFilteredPengguna(filteredData);
     }
   }, [location.search, pengguna]);
@@ -72,6 +77,7 @@ const DataUsers = ({ setPageTitle }) => {
       if (currentUser) {
         await axios.put(`http://127.0.0.1:8000/api/user/${currentUser.id_users}`, formData);
         alert('Data berhasil diperbarui!');
+
       } else {
         await axios.post(`http://127.0.0.1:8000/api/user`, formData);
         alert('Data berhasil ditambahkan!');
@@ -137,7 +143,7 @@ const DataUsers = ({ setPageTitle }) => {
               }
             }}
             title="Delete">
-                
+
             <FaTrash style={{ color: '#F77D00' }} />
           </IconButton>
         </>
@@ -165,6 +171,7 @@ const DataUsers = ({ setPageTitle }) => {
         handleClose={handleFormUserClose}
         onSubmit={handleFormSubmit}
         users={currentUser}
+        fetchUser={fetchUser}
       />
 
       <DataTable

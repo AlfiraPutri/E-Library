@@ -8,6 +8,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import MenuItem from '@mui/material/MenuItem';
 import { styled } from '@mui/material/styles';
+import { useState } from 'react';
+import axios from 'axios';  // Jangan lupa impor axios
 
 const CustomDialogTitle = styled(DialogTitle)(({ theme }) => ({
   backgroundColor: '#F77D00',
@@ -37,7 +39,26 @@ const CustomCancelButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-export default function FormUser({ open, handleClose, onSubmit, users }) {
+const PreviewImage = styled('img')({
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 100,
+    height: 100,
+
+    objectFit: 'cover',
+    margin: '10px 0',
+    display: 'block',
+  });
+
+  const GridContainer = styled('div')({
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr', // Dua kolom yang sama besar
+    gap: '20px', // Jarak antara kolom
+
+  });
+
+
+export default function FormUser({ open, handleClose, onSubmit, users, fetchUser }) {
   const [formData, setFormData] = React.useState({
     nama: users ? users.nama : '',
     nip: users ? users.nip : '',
@@ -48,7 +69,8 @@ export default function FormUser({ open, handleClose, onSubmit, users }) {
     email: users ? users.email : '',
     username: users ? users.username : '',
     password: users ? users.password : '',
-    role: users ? users.role : '' // Ensure role is initialized
+    role: users ? users.role : '', // Ensure role is initialized
+    img_user: null,
   });
 
   React.useEffect(() => {
@@ -63,30 +85,133 @@ export default function FormUser({ open, handleClose, onSubmit, users }) {
       email: users.email || '',
       username: users.username || '',
       password: users.password || '', // Pastikan password diisi
-      role: users.role || ''
+      role: users.role || '',
+      img_user: users.img_user || '',
       });
-    }
+    } else {
+        // Jika tidak ada users, artinya mode Add, reset formData
+        setFormData({
+          nama: '',
+          nip: '',
+          jenis_kelamin: '',
+          tanggal_lahir: '',
+          alamat: '',
+          jabatan: '',
+          email: '',
+          username: '',
+          password: '',
+          role: '',
+          img_user: null,
+        });
+        setPreview(null); // Reset preview jika membuka form tambah user
+      }
+
   }, [users]);
+
+  const [preview, setPreview] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData({
+        ...formData,
+        img_user: file,
+      });
+      setPreview(URL.createObjectURL(file));
+    } else {
+        setPreview(null); // Reset preview if no file is selected
+      }
+  };
+
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const data = new FormData();
+    if (users) {
+        data.append('id_users', users.id_users);  // Tambahkan id_users untuk identifikasi saat update
+      }
+        Object.entries(formData).forEach(([key, value]) => {
+          if (key === 'img_buku') {
+            if (value instanceof File) {
+              data.append(key, value);
+            }
+          } else {
+            data.append(key, value);
+          }
+        });
+
+        // Kirim password hanya jika ada input yang diisi
+        if (formData.password) {
+            data.append('password', formData.password);
+        }
+
+
+        try {
+            if (users) {
+                // Mode edit
+                await axios.post(`http://127.0.0.1:8000/api/user/${users.id_users}`, data, {
+                  headers: { 'Content-Type': 'multipart/form-data' },
+                });
+                alert('Data berhasil diperbarui!');
+            } else {
+            await axios.post('http://127.0.0.1:8000/api/user', data, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            alert('Data berhasil ditambahkan!');
+        }
+           //  onSubmit(formData);
+           fetchUser();
+            handleClose();
+
+        } catch (error) {
+            if (error.response) {
+                console.error('Error response data:', error.response.data);
+                alert('Submission error: ' + JSON.stringify(error.response.data));
+            } else {
+                console.error('Error submitting form:', error);
+            }
+        }
     console.log(formData);
-    onSubmit(formData);
+ //   onSubmit(formData);
     handleClose(); // Close the form dialog after submission
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md"
+    PaperProps={{
+        style: {
+          borderRadius: '20px', // Mengatur border-radius sesuai kebutuhan
+        },
+      }}>
       <CustomDialogTitle>{users ? 'Edit User' : 'Tambah User'}</CustomDialogTitle>
       <CustomDialogContent>
         <DialogContentText>
           Please fill in the following details to {users ? 'edit' : 'add'} a user.
         </DialogContentText>
+        <input
+          accept="image/*"
+          type="file"
+          id="img_user"
+          name="img_user"
+          onChange={handleImageChange}
+          style={{ margin: '10px 0' }}
+        />
+
+        {/* Image Preview */}
+        {preview && (
+          <PreviewImage src={preview} />
+        )}
+
+<GridContainer>
+
         <TextField
           autoFocus
           required
@@ -215,6 +340,7 @@ export default function FormUser({ open, handleClose, onSubmit, users }) {
           value={formData.password || ''}
           onChange={handleChange}
         />
+        </GridContainer>
       </CustomDialogContent>
       <DialogActions>
         <CustomCancelButton onClick={handleClose}>

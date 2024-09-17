@@ -35,7 +35,7 @@ const Sidebar = () => {
       <div className="sidebar-top">
         <div className="sidebar-brand">
           <span className="brand-logo">
-            <img src={Icons.LogoWhite} alt="site brand logo" />
+            <img src="/images/logo.png" alt="site brand logo" />
           </span>
           <span className="brand-text">E-Library</span>
         </div>

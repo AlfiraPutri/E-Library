@@ -44,7 +44,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended('/user/${id}/dashboard');
+        return redirect()->intended('/user/dashboard');
     }
 
     /**
