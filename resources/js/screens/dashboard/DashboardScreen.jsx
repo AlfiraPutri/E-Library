@@ -3,7 +3,7 @@ import { DashboardScreenWrap } from "./DashboardScreen.styles";
 
 const DashboardScreen = () => {
   return (
-  
+
     <DashboardScreenWrap className="content-area">
       <div className="area-row ar-one">
         <Sales />

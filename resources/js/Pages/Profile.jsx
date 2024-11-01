@@ -2,18 +2,19 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   ProfileWrap, ProfileCard, Form, InputGroup, Label, Input, Button, ErrorMessage,
-  ProfileImage, UploadButton, TwoCardContainer, Card
+  ProfileImage, UploadButton, TwoCardContainer, Card, Title
 } from './Profile.styles';
 import ChangePasswordForm from '../Components/FormPassword';
+import { useSelector } from 'react-redux';
 
-const Profile = ({ }) => {
+const Profile = ({ auth }) => {
   const [formData, setFormData] = useState({
     nama: '',
     nip: '',
     jabatan: '',
-    jenisKelamin: '',
+    jenis_kelamin: '',
     alamat: '',
-    tglLahir: '',
+    tanggal_lahir: '',
     email: '',
     username: '',
     oldPassword: '',
@@ -27,16 +28,28 @@ const Profile = ({ }) => {
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const [users, setUser] = useState(null);
 
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/user`);
+        const response = await axios.get(`http://127.0.0.1:8000/api/user/${auth.user.id_users.toString()}/show`);
         const userData = response.data; // Set user data
+
         setFormData((prevData) => ({
             ...prevData,
+            nama: userData.nama || '',
+            nip: userData.nip || '',
+            jabatan: userData.jabatan || '',
+            jenis_kelamin: userData.jenis_kelamin || '',
+            alamat: userData.alamat || '',
+            tanggal_lahir: userData.tanggal_lahir || '',
             email: userData.email || '',
             username: userData.username || '',
+            password: userData.password || '',
+            profilePicture: userData.img_user || null,
           }));
+          setPreview(userData.img_user ? `http://127.0.0.1:8000${userData.img_user}` : null);
+          setUser(userData);
       } catch (error) {
         console.error("Error fetching user data:", error);
         setError("Terjadi kesalahan saat memuat data pengguna.");
@@ -44,7 +57,7 @@ const Profile = ({ }) => {
     };
 
     fetchUserData();
-  }, []);
+  }, [auth.user.id_users]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,9 +74,11 @@ const Profile = ({ }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Form Submitted:", formData);
     const { newPassword, confirmPassword } = formData;
 
     if (newPassword !== confirmPassword) {
+        console.log("Passwords do not match");
       setError('Password baru dan konfirmasi password tidak sama!');
       return;
     }
@@ -80,8 +95,8 @@ const Profile = ({ }) => {
             }
           });
 
-          if (users) {
-            const response = await axios.post(`http://127.0.0.1:8000/api/user/${users.id_users}`, data, {
+          if (auth.user) {
+            const response = await axios.post(`http://127.0.0.1:8000/api/user/${auth.user.id_users}`, data, {
               headers: {
                 'Content-Type': 'multipart/form-data',
               },
@@ -135,10 +150,16 @@ const handlePasswordToggle = () => {
   return (
     <ProfileWrap>
       <ProfileCard>
-        <h2>Update Profile</h2>
+        {/* <h2>Update Profile</h2> */}
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <ProfileImage>
-          {preview ? <img src={preview} alt="Profile Preview" /> : <p>Gambar profil</p>}
+          {preview ? (
+            <img src={preview} alt="Profile Preview" />
+          ) : formData.profilePicture ? (
+            <img src={`http://127.0.0.1:8000${formData.profilePicture}`} />
+          )  : (
+          <p>Gambar profil belum diunggah</p>
+        )}
         </ProfileImage>
         <UploadButton type="file" accept="image/*" onChange={handleFileChange} />
       </ProfileCard>
@@ -146,7 +167,7 @@ const handlePasswordToggle = () => {
       <TwoCardContainer>
         {/* Informasi Umum Card */}
         <Card>
-          <h3>Informasi Umum</h3>
+        <Title>Informasi Umum</Title>
           <Form onSubmit={handleSubmit}>
             <InputGroup>
               <Label>Nama</Label>
@@ -162,9 +183,9 @@ const handlePasswordToggle = () => {
             </InputGroup>
             <InputGroup>
               <Label>Jenis Kelamin</Label>
-              <select name="jenisKelamin" value={formData.jenisKelamin} onChange={handleChange}>
+              <select name="jenis_kelamin" value={formData.jenis_kelamin} onChange={handleChange}>
                 <option value="" disabled></option>
-                <option value="Laki-Laki">Laki-Laki</option>
+                <option value="Laki-laki">Laki-Laki</option>
                 <option value="Perempuan">Perempuan</option>
               </select>
             </InputGroup>
@@ -174,14 +195,14 @@ const handlePasswordToggle = () => {
             </InputGroup>
             <InputGroup>
               <Label>Tanggal Lahir</Label>
-              <Input type="date" name="tglLahir" value={formData.tglLahir} onChange={handleChange} />
+              <Input type="date" name="tanggal_lahir" value={formData.tanggal_lahir} onChange={handleChange} />
             </InputGroup>
           </Form>
         </Card>
 
         {/* Informasi Akun Card */}
         <Card>
-          <h3>Informasi Akun</h3>
+        <Title>Informasi Akun</Title>
           <Form onSubmit={handleSubmit}>
             <InputGroup>
               <Label>Email</Label>
@@ -216,6 +237,7 @@ const handlePasswordToggle = () => {
         open={showPasswordForm}
         handleClose={handlePasswordToggle}
         onSubmit={handlePasswordSubmit}
+        auth={users}
       />
     </ProfileWrap>
   );

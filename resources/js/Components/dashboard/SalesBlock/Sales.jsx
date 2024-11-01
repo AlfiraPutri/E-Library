@@ -60,7 +60,7 @@ const SalesBlock = () => {
           const fetchTotalBukuTerbaca = async () => {
             try {
                 // Fetch history data for all users
-                const response = await axios.get('http://127.0.0.1:8000/api/user/{id}/history');
+                const response = await axios.get('http://127.0.0.1:8000/api/history');
                 const history = response.data;
 
                 // Use a Set to track unique book IDs
@@ -86,18 +86,18 @@ const SalesBlock = () => {
           </BlockTitle>
           <p className="text">Temukan ringkasanya</p>
         </div>
-        <div className="block-head-r">
+        {/* <div className="block-head-r">
           <button type="button" className="export-btn">
             <img src={Icons.ExportDark} alt="" />
             <span className="text">Export</span>
           </button>
-        </div>
+        </div> */}
       </div>
       <BlockContentWrap>
         <div className="cards">
           <div className="card-item card-misty-rose">
             <div className="card-item-icon">
-              <img src={Icons.CardSales} alt="" />
+              <img src={Icons.CardCustomer} alt="" />
             </div>
             <div className="card-item-value">{totalUsers}</div>
             <p className="card-item-text text">Total User</p>
@@ -107,7 +107,7 @@ const SalesBlock = () => {
               <img src={Icons.CardOrder} alt="" />
             </div>
             <div className="card-item-value">{totalBuku}</div>
-            <p className="card-item-text text">Total Book</p>
+            <p className="card-item-text text">Total Buku</p>
           </div>
           <div className="card-item card-nyanza">
             <div className="card-item-icon">
@@ -118,7 +118,7 @@ const SalesBlock = () => {
           </div>
           <div className="card-item card-pale-purple">
             <div className="card-item-icon">
-              <img src={Icons.CardCustomer} alt="" />
+              <img src={Icons.CardSales} alt="" />
             </div>
             <div className="card-item-value">{totalKategori}</div>
             <p className="card-item-text text">Total Kategori</p>

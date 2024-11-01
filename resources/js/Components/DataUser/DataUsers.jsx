@@ -10,6 +10,7 @@ import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import ArrowDownward from '@mui/icons-material/ArrowDownward';
 import Delete from '@mui/icons-material/Delete';
+import Swal from 'sweetalert2';
 import Add from '@mui/icons-material/Add';
 
 
@@ -90,14 +91,29 @@ useEffect(() => {
   };
 
   const handleDelete = async (id) => {
+    Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: 'Pengguna ini akan dihapus !',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#F9A01B',
+        cancelButtonColor: '#20326A',
+        confirmButtonText: 'Ya, Hapus!',
+        cancelButtonText: 'Batal',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
     try {
       await axios.delete(`http://127.0.0.1:8000/api/user/${id}`);
       alert('Data berhasil dihapus!');
       fetchUser();
+      Swal.fire('Terhapus!', 'Pengguna berhasil dihapus.', 'success');
     } catch (error) {
-      console.error('Error deleting user:', error);
+      console.error('Error deleting pengguna:', error);
+      Swal.fire('Gagal', 'Terjadi kesalahan saat menghapus pengguna.', 'error');
     }
-  };
+  }
+});
+};
 
   const deleteAll = () => {
     const ids = selectedRows.map(row => row.id_users);
@@ -138,9 +154,7 @@ useEffect(() => {
             <FaEdit style={{ color: '#F77D00' }} />
           </IconButton>
           <IconButton onClick={() => {
-              if (window.confirm('Are you sure you want to delete this data?')) {
-                handleDelete(row.id_users);
-              }
+                handleDelete(row.id_users)
             }}
             title="Delete">
 

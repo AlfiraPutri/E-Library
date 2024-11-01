@@ -17,9 +17,9 @@ const Signup = () => {
           <label className="block text-gray-700">Password</label>
           <input type="password" placeholder="enter your password" className="w-full p-2 border border-gray-300 rounded mt-1" />
         </div>
-        <button className="w-full bg-yellow-500 text-white p-2 rounded mt-4">Sign up</button>
+        <button className="w-full bg-[#f9a01b] text-white p-2 rounded mt-4">Sign up</button>
         <p className="text-center text-gray-500 mt-4">
-          Already have an account? <a href="/login" className="text-yellow-500">Login Here</a>
+          Already have an account? <a href="/login" className="text-[#f9a01b]">Login Here</a>
         </p>
       </div>
     </div>

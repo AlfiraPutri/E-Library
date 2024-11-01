@@ -10,6 +10,8 @@ import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import ArrowDownward from '@mui/icons-material/ArrowDownward';
 import Delete from '@mui/icons-material/Delete';
+import Swal from 'sweetalert2';
+
 
 const Kategori = ({setPageTitle}) => {
   setPageTitle('Kategori Buku')
@@ -28,7 +30,7 @@ const Kategori = ({setPageTitle}) => {
   const fetchKategori = async () => {
     try {
       const url = `http://127.0.0.1:8000/api/kategori`;
-      console.log('Fetching from URL:', url);
+    //   console.log('Fetching from URL:', url);
       const response = await axios.get(url);
       setKategori(response.data);
     } catch (error) {
@@ -82,13 +84,28 @@ const Kategori = ({setPageTitle}) => {
   };
 
   const handleDelete = async (id) => {
+    Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: 'Kategori ini akan dihapus !',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#F9A01B',
+        cancelButtonColor: '#20326A',
+        confirmButtonText: 'Ya, Hapus!',
+        cancelButtonText: 'Batal',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
     try {
       await axios.delete(`http://127.0.0.1:8000/api/kategori/${id}`);
       fetchKategori();
+      Swal.fire('Terhapus!', 'Kategori berhasil dihapus.', 'success');
     } catch (error) {
       console.error('Error deleting category:', error);
+      Swal.fire('Gagal', 'Terjadi kesalahan saat menghapus kategori.', 'error');
     }
-  };
+        }
+  });
+};
 
   const deleteAll = () => {
     const ids = selectedRows.map(row => row.id_kategori);

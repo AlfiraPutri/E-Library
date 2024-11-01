@@ -7,17 +7,17 @@ export const SettingsContainer = styled.div`
   width: 100%;
   margin: 12px;
   padding: 20px;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.85);
     box-shadow: 0 0.25rem 1.125rem rgba(75, 70, 92, 0.1);
-    border-radius: 6px;
+    border-radius: 8px;
     padding: 20px;
     overflow-x: auto;
 `;
 export const Card = styled.div`
-  background-color: white;
+ background-color: rgba(255, 255, 255, 0.95);
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 500px;
 `;
@@ -39,8 +39,11 @@ export const ProfileImage = styled.div`
     height: 80px;
     border-radius: 50%;
     margin-bottom: 10px;
+    transition: transform 0.2s;
   }
-
+img:hover {
+    transform: scale(1.05);
+  }
   button {
     margin: 5px;
     padding: 5px 10px;
@@ -49,6 +52,7 @@ export const ProfileImage = styled.div`
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s;
 
     &:hover {
       background-color: #0056b3;
@@ -70,16 +74,31 @@ export const FormField = styled.div`
   margin-bottom: 15px;
 
   label {
-    margin-bottom: 5px;
+    display: block;
+    margin-bottom: 0.5em;
+    color: #333;
     font-weight: bold;
   }
 
   input,
   select,
   textarea {
+    width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+   // background-color: rgba(255, 236, 200, 0.8);
+    font-size: 1em;
+    color: #333;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s, box-shadow 0.3s;
+
+    &:focus {
+      outline: none;
+      border-color: #F77D00; /* Optional: Add a border color for focus state */
+      background-color: rgba(255, 236, 200, 0.95);
+      box-shadow: 0 0 5px rgba(247, 125, 0, 0.3);
+    }
   }
 
   textarea {
@@ -87,28 +106,45 @@ export const FormField = styled.div`
   }
 `;
 
+
+
 export const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
 
   button {
     padding: 10px 20px;
-    background-color: #28a745;
+    background-color: #F77D00;
     color: white;
     border: none;
     border-radius: 4px;
-    cursor: pointer;
+    cursor: pointer;transition: background-color 0.3s, transform 0.2s;
 
     &.danger {
-      background-color: #dc3545;
+      background-color: #ff4d4d;
 
       &:hover {
-        background-color: #c82333;
+        background-color: #e66c00;
+        transform: translateY(-2px);
       }
     }
 
     &:hover {
-      background-color: #218838;
+      background-color: #CD5C08;
     }
+  }
+
+`;
+
+export const PdfLink = styled.a`
+  display: inline-block;
+  margin-top: 0.5em;
+  color: #F77D00;
+  font-weight: bold;
+  text-decoration: underline;
+
+  &:hover {
+    color: #e66c00;
+    text-decoration: none;
   }
 `;

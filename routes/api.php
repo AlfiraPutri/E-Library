@@ -29,7 +29,7 @@ Route::get('/user/{id}/show', [UserController::class, 'show']);
 Route::post('/user', [UserController::class, 'store']);
 Route::post('/user/{id}', [UserController::class, 'update']);
 Route::delete('/user/{id}', [UserController::class, 'destroy']);
-Route::middleware('web')->get('/profile', [UserController::class, 'getProfile']);
+
 
 
 
@@ -54,6 +54,8 @@ Route::get('/user/buku/{id}/show', [BukuController::class, 'show']);
 
 Route::post('/user/{id}/history', [HistoryController::class, 'addToHistory']);
 Route::get('/user/{id}/history', [HistoryController::class, 'getHistory']);
+Route::get('/history', [HistoryController::class, 'getAllHistory']);
+
 
 Route::post('/user/{id}/favorite', [FavoriteController::class, 'addToFavorites']);
 Route::get('/user/{id}/favorite', [FavoriteController::class, 'getFavorites']);
@@ -66,3 +68,6 @@ Route::get('/register', [RegisteredUserController::class, 'create'])->name('regi
 Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
+
+Route::post('/user/{id}/change-password', [UserController::class, 'changePassword']);
+

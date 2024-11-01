@@ -136,3 +136,15 @@ export const UploadButton = styled.input`
     outline: none;
   }
 `;
+export const Title = styled.h3`
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #F77D00;
+  text-align: center;
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+//   border-bottom: 2px solid #F77D00;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+`;

@@ -34,7 +34,7 @@ const VisitorsBlock = () => {
 
         // Format data menjadi array untuk chart
         const formattedData = initialUsersPerMonth.map((count, index) => ({
-          month: new Date(0, index).toLocaleString('default', { month: 'long' }),
+          month: new Date(0, index).toLocaleString('default', { month: 'short' }),
           user: count
         }));
 
@@ -43,7 +43,7 @@ const VisitorsBlock = () => {
         console.error('Error fetching user data:', error);
       }
     };
-    
+
     fetchUsersByMonth();
   }, []);
 
@@ -70,6 +70,7 @@ const VisitorsBlock = () => {
               dataKey="month"
               tickSize={0}
               axisLine={false}
+              tickMargin={15}
               tick={{
                 fill: "#7B91B0",
                 fontSize: 14,
@@ -88,7 +89,7 @@ const VisitorsBlock = () => {
             <Line
               type="monotone"
               dataKey="user"  // This should be the count of users per month
-              stroke="#F64E60"
+              stroke="#F9A01B"
               strokeWidth={4}
               dot={false}
             />

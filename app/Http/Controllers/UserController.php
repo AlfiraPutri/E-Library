@@ -55,7 +55,7 @@ class UserController extends Controller
         try {
             $validated = $request->validate([
                 'nama' => 'required|string|max:255',
-                'nip' => 'required|numeric|unique:users,nip',
+                'nip' => 'required|string|max:18|unique:users,nip',
                 'jenis_kelamin' => 'nullable|string|max:255',
                 'tanggal_lahir' => 'nullable|date',
                 'alamat' => 'nullable|string|max:255',
@@ -143,13 +143,17 @@ class UserController extends Controller
             'username' => 'nullable|string|max:255|unique:users,username,' . $id . ',id_users',
             'password' => 'nullable|string|min:8',
             'role' => 'nullable|string|in:admin,pegawai',
-            'img_user' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'img_user' => 'nullable',
         ]);
 
         $user = User::findOrFail($id);
 
         if ($request->hasFile('img_user')) {
             // Hapus gambar lama jika ada
+            $request->validate([
+                'img_user' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+
             if ($user->img_user) {
                 Storage::delete('public/' . $user->img_user);
             }
@@ -171,7 +175,7 @@ class UserController extends Controller
             'email' => $validated['email'],
             'username' => $validated['username'],
             'password' => isset($validated['password']) ? Hash::make($validated['password']) : $user->password,
-            'role' => $validated['role'],
+            'role' => $validated['role'] ?? $user->role,
         ]);
 
         return response()->json($user);
@@ -195,7 +199,7 @@ class UserController extends Controller
             if ($user->img_user) {
                 Storage::delete('public/' . $user->img_user);
             }
-            
+
             $user->delete();
             return response()->json(null, 204);
         } catch (\Exception $exception) {
@@ -203,5 +207,39 @@ class UserController extends Controller
             return response()->json(['status' => 500, 'message' => 'Internal server error!'], 500);
         }
     }
+
+    public function changePassword(Request $request, $id)
+{
+    $user = User::find($id);
+
+    if (!$user) {
+        return response()->json(['message' => 'User not found'], 404);
+    }
+
+    Log::info('Password hash di database untuk user ID ' . $id . ': ' . $user->password);
+    Log::info('Password lama yang dimasukkan: ' . $request->password);
+
+    // Validasi password lama
+    if (!Hash::check($request->password, $user->password)) {
+        Log::warning('Password lama tidak cocok untuk user ID ' . $id);
+        return response()->json(['message' => 'Password lama tidak sesuai'], 400);
+    }
+
+    // Validasi password baru dan konfirmasi password
+    if ($request->newPassword !== $request->confirmPassword) {
+        Log::warning('Password baru dan konfirmasi password tidak cocok untuk user ID ' . $id);
+        return response()->json(['message' => 'Password baru dan konfirmasi password tidak cocok'], 400);
+    }
+
+    Log::info('Password baru yang akan di-hash: ' . $request->newPassword);
+    // Update password
+    $user->password = Hash::make($request->newPassword);
+    $user->save();
+    
+    Log::info('Password berhasil diubah untuk user ID ' . $id);
+
+    return response()->json(['message' => 'Password berhasil diubah'], 200);
+}
+
 }
 

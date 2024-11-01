@@ -5,6 +5,10 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { styled } from '@mui/material/styles';
 
 
@@ -36,11 +40,17 @@ const CustomCancelButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-export default function ChangePasswordForm({ open, handleClose, onSubmit }) {
+export default function ChangePasswordForm({ open, handleClose, onSubmit, auth }) {
   const [formData, setFormData] = React.useState({
-    oldPassword: '',
+    password: '',
     newPassword: '',
     confirmPassword: '',
+  });
+
+  const [showPassword, setShowPassword] = React.useState({
+    password: false,
+    newPassword: false,
+    confirmPassword: false,
   });
 
   const handleChange = (e) => {
@@ -48,11 +58,28 @@ export default function ChangePasswordForm({ open, handleClose, onSubmit }) {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (formData.newPassword !== formData.confirmPassword) {
-      alert("Password baru dan konfirmasi password tidak cocok!");
-      return;
+  const handleShowPassword = (field) => {
+    setShowPassword({ ...showPassword, [field]: !showPassword[field] });
+  };
+
+  const handleSubmit = async (passwordData) => {
+    try {
+        const response = await axios.post(`http://127.0.0.1:8000/api/user/${auth.id_users}/change-password`, {
+          password: passwordData.password,
+          newPassword: passwordData.newPassword,
+          confirmPassword: passwordData.confirmPassword,
+        });
+
+        if (response.status === 200) {
+          alert('Password berhasil diubah!');
+        }
+      } catch (error) {
+        console.error('Error updating password:', error);
+        if (error.response) {
+            alert('Error: ' + error.response.data.message); // Menampilkan pesan error dari server
+          } else {
+            alert('Terjadi kesalahan saat mengubah password.');
+      }
     }
     onSubmit(formData);
     handleClose();
@@ -66,14 +93,26 @@ export default function ChangePasswordForm({ open, handleClose, onSubmit }) {
           autoFocus
           required
           margin="normal"
-          id="oldPassword"
-          name="oldPassword"
+          id="password"
+          name="password"
           label="Password Lama"
-          type="password"
+          type={showPassword.password ? 'text' : 'password'}
           fullWidth
           variant="outlined"
-          value={formData.oldPassword}
+          value={formData.password}
           onChange={handleChange}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={() => handleShowPassword('password')}
+                  edge="end"
+                >
+                  {showPassword.password ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
         <TextField
           required
@@ -81,11 +120,23 @@ export default function ChangePasswordForm({ open, handleClose, onSubmit }) {
           id="newPassword"
           name="newPassword"
           label="Password Baru"
-          type="password"
+          type={showPassword.newPassword ? 'text' : 'password'}
           fullWidth
           variant="outlined"
           value={formData.newPassword}
           onChange={handleChange}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={() => handleShowPassword('newPassword')}
+                  edge="end"
+                >
+                  {showPassword.newPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
         <TextField
           required
@@ -93,18 +144,30 @@ export default function ChangePasswordForm({ open, handleClose, onSubmit }) {
           id="confirmPassword"
           name="confirmPassword"
           label="Konfirmasi Password"
-          type="password"
+          type={showPassword.confirmPassword ? 'text' : 'password'}
           fullWidth
           variant="outlined"
           value={formData.confirmPassword}
           onChange={handleChange}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={() => handleShowPassword('confirmPassword')}
+                  edge="end"
+                >
+                  {showPassword.confirmPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
       </CustomDialogContent>
       <DialogActions>
         <CustomCancelButton onClick={handleClose}>
           Cancel
         </CustomCancelButton>
-        <CustomButton onClick={handleSubmit} variant="contained">
+        <CustomButton onClick={() => handleSubmit(formData)} variant="contained">
           Ubah Password
         </CustomButton>
       </DialogActions>

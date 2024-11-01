@@ -18,6 +18,24 @@ export const SidebarWrap = styled.div`
   height: 100vh;
   overflow-y: auto;
 
+  ${media.xxxl`
+    width: 224px;
+  `}
+
+  ${media.xxl`
+    width: auto;
+    padding: 20px 12px;
+  `}
+
+  ${media.xl`
+    width: 244px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    transform: translateX(-100%);
+  `}
+
   .sidebar-top {
     margin-bottom: 32px;
     display: flex;
@@ -26,7 +44,18 @@ export const SidebarWrap = styled.div`
   }
 
   .sidebar-body {
+    display: flex;
+    flex-direction: column;
     flex: 1;
+  }
+
+  .sidebar-menu {
+    flex: 1;
+  }
+    .sidebar-footer {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
   }
 
   .sidebar-brand {

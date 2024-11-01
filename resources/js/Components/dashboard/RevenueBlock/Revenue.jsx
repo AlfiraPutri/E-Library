@@ -1,6 +1,5 @@
-import { REVENUE_DATA } from "../../../data/mockData";
-import { BlockContentWrap, BlockTitle } from "../../../styles/global/default";
-import { RevenueWrap } from "./Revenue.styles";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   BarChart,
   Bar,
@@ -11,101 +10,98 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-
-const formatTooltipValue = (value) => {
-  return `${value} sales`;
-};
-
-const formatYAxisLabel = (value) => {
-  return `${value}k`;
-};
-
-const formatLegendValue = (value) => {
-  return value.charAt(0).toUpperCase() + value.slice(1) + " Buku";
-};
+import { BlockContentWrap, BlockTitle } from "../../../styles/global/default";
+import { RevenueWrap } from "./Revenue.styles";
 
 const Revenue = () => {
+  const [historyData, setHistoryData] = useState([]);
+
+  useEffect(() => {
+    const fetchHistoryData = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/api/history");
+        const history = response.data;
+
+        // Initialize an object to store unique books read per month
+        const booksPerMonth = {};
+
+        history.forEach((entry) => {
+            // Memastikan bahwa created_at dan id_buku ada
+            if (entry.created_at && entry.id_buku) {
+              const isoDate = entry.created_at.replace(" ", "T");
+              const date = new Date(isoDate);
+
+              if (!isNaN(date)) {
+                const month = date.toLocaleString("default", { month: "long", year: "numeric" });
+
+                if (!booksPerMonth[month]) {
+                  booksPerMonth[month] = new Set();
+                }
+
+                booksPerMonth[month].add(entry.id_buku);
+              } else {
+                console.error(`Format tanggal tidak valid untuk entri: ${entry.created_at}`);
+              }
+            } else {
+              console.warn("Melewati entri dengan field yang hilang:", entry);
+            }
+          });
+
+
+        // Format data for the chart
+        const formattedData = Object.keys(booksPerMonth).map((month) => ({
+          month,
+          jumlah: booksPerMonth[month].size,
+        }));
+
+        setHistoryData(formattedData);
+      } catch (error) {
+        console.error("Error fetching history data:", error);
+      }
+    };
+
+    fetchHistoryData();
+  }, []);
+
   return (
     <RevenueWrap>
       <div className="block-head">
         <BlockTitle className="block-title">
-          <h3>Buku Terbaca</h3>
+          <h3>Buku Terbaca per Bulan</h3>
         </BlockTitle>
       </div>
       <BlockContentWrap className="bar-chart">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
-            width={500}
-            height={300}
-            data={REVENUE_DATA}
+            data={historyData}
             margin={{
-              top: 5,
-              right: 5,
-              left: -20,
-              bottom: 5,
+              top: 20,
+              right: 20,
+              left: 20,
+              bottom: 20,
             }}
           >
-            <CartesianGrid
-              stroke="#f8f8f9"
-              horizontal={true}
-              vertical={false}
-              strokeDasharray="3 0"
-            />
+            <CartesianGrid stroke="#f8f8f9" vertical={false} strokeDasharray="3 3" />
             <XAxis
-              dataKey="day"
+              dataKey="month"
               tickSize={0}
               axisLine={false}
-              tick={({ payload, x, y, dy }) => (
-                <text
-                  x={x}
-                  y={y + 25}
-                  dy={dy}
-                  textAnchor="middle"
-                  fill="#7B91B0"
-                  fontSize={14}
-                >
-                  {payload.value}
-                </text>
-              )}
+              tick={{ fill: "#7B91B0", fontSize: 12 }}
+              tickMargin={8}
             />
             <YAxis
-              tickFormatter={formatYAxisLabel}
               tickCount={6}
               axisLine={false}
               tickSize={0}
-              tick={{
-                fill: "#7B91B0",
-                fontSize: 14,
-              }}
-              interval={0}
-              ticks={[0, 5, 10, 15, 20, 25]}
+              tick={{ fill: "#7B91B0", fontSize: 12 }}
             />
-            <Tooltip
-              cursor={{ fill: "transparent" }}
-              formatter={formatTooltipValue}
-            />
-            <Legend
-              iconType="circle"
-              iconSize={10}
-              formatter={formatLegendValue}
-              style={{
-                paddingTop: "10px",
-              }}
-            />
-            {/* <Bar
-              dataKey="online"
-              fill="#0095FF"
-              activeBar={false}
-              isAnimationActive={false}
-              radius={[4, 4, 4, 4]}
-              barSize={18}
-            /> */}
+            <Tooltip formatter={(value) => `${value} buku`} />
+            <Legend iconType="circle" iconSize={10} />
             <Bar
               dataKey="jumlah"
+              name="Jumlah Buku Terbaca"
               fill="#00E096"
-              activeBar={false}
-              isAnimationActive={false}
-              radius={[4, 4, 4, 4]}
+              radius={[4, 4, 0, 0]}
               barSize={18}
             />
           </BarChart>

@@ -196,11 +196,16 @@ export default function FormUser({ open, handleClose, onSubmit, users, fetchUser
         <DialogContentText>
           Please fill in the following details to {users ? 'edit' : 'add'} a user.
         </DialogContentText>
-        <input
+        <TextField
+        margin="dense"
           accept="image/*"
           type="file"
           id="img_user"
           name="img_user"
+          label="Upload Gambar Profil"
+          fullWidth
+            variant="outlined"
+            InputLabelProps={{ shrink: true }}
           onChange={handleImageChange}
           style={{ margin: '10px 0' }}
         />

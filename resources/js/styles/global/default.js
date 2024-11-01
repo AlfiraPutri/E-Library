@@ -33,6 +33,6 @@ export const BlockWrapStyles = css`
   padding: 20px;
 
   ${media.xxxl`
-    padding: 12px;
+    // padding: 12px;
  `}
 `;

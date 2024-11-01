@@ -3,7 +3,10 @@ import { BlockWrapStyles } from "../styles/global/default";
 
 export const ShowBukuWrap = styled.div`
   ${BlockWrapStyles};
-   overflow-x: auto;
+
+  margin: 12px;
+  align-items: center;
+  padding: 14px 12px;
 
    &::-webkit-scrollbar {
     height: 8px;
@@ -28,6 +31,7 @@ export const Container = styled.div`
     background-color: #f7f7f7;
     width: 100%;
     overflow-x: auto;
+
 `;
 
 export const ContentWrapper = styled.div`
@@ -37,7 +41,7 @@ export const ContentWrapper = styled.div`
     background-color: white;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
 `;
 
@@ -72,18 +76,40 @@ export const Badge = styled.div`
     text-align: center;
 `;
 
+export const ButtonGroup = styled.div`
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+`;
+
 export const Button = styled.button`
     background-color: ${props => props.primary ? '#FFA500' : '#D3D3D3'};
     color: white;
     border: none;
-    padding: 15px 80px;
+    padding: ${props => props.full ? '10px 80px' : '10px 80px'};
     margin-bottom: 10px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     &:hover {
         opacity: 0.8;
     }
+
+    svg {
+        margin-left: 5px;
+    }
+
+    /* For small buttons like Download and Favorite */
+    ${props => props.small && `
+        padding: 10px 30px;
+        font-size: 14px;
+        width: auto;
+        background-color: #20326A;
+    `}
 `;
 
 export const Divider = styled.hr`
@@ -129,11 +155,11 @@ export const InfoItem = styled.div`
 `;
 
 export const DownloadButton = styled.button`
-    background-color: #FFE4B5;
+    // background-color: #FFE4B5;
     border: none;
-    padding: 10px;
-    border-radius: 50%;
-    font-size: 24px;
+  //  padding: 10px;
+   // border-radius: 50%;
+    font-size: 18px;
     cursor: pointer;
     margin-top: 20px;
     &:hover {
@@ -142,14 +168,31 @@ export const DownloadButton = styled.button`
 `;
 
 export const SmileButton = styled.button`
-    background-color: #FFFACD;
+    // background-color: #FFFACD;
     border: none;
-    padding: 10px;
-    border-radius: 50%;
-    font-size: 24px;
+    // padding: 10px;
+    // border-radius: 50%;
+    font-size: 18px;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 20px;
     &:hover {
         background-color: #FFEB3B;
     }
 `;
+export const InfoTable = styled.table`
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+
+    td {
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    strong {
+        color: #FF7F50;
+    }
+`;
+
+
+

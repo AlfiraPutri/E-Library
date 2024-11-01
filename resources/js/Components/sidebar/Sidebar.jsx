@@ -7,10 +7,10 @@ import { useForm } from '@inertiajs/react';
 
 const Icons = {
   LogoWhite: '/icons/logo_white.svg',
-  Chart: '/icons/chart.svg',
-  Graph: '/icons/graph.svg',
-  Cart: '/icons/cart.svg',
-  Bag: '/icons/bag.svg',
+  Chart: '/icons/home.svg',
+  Graph: '/icons/users.svg',
+  Cart: '/icons/books.svg',
+  Bag: '/icons/kategori.svg',
   Cog: '/icons/cog.svg',
   SignOut: '/icons/sign_out.svg',
 }
@@ -105,7 +105,10 @@ const Sidebar = () => {
                 <span className="menu-link-text">Review</span>
               </NavLink>
             </li> */}
-            <br></br>
+            </ul>
+            </div>
+            <div className="sidebar-footer">
+            <ul className="menu-list">
             <li className="menu-item">
               <NavLink
                 to="/dashboard/profile"
@@ -126,11 +129,11 @@ const Sidebar = () => {
                 <span className="menu-link-icon">
                   <img src={Icons.SignOut} alt="Sign Out" />
                 </span>
-                <span className="menu-link-text">Log Out</span>
+                <span className="menu-link-text" style={{ color: '#FF4545' }}>Log Out</span>
               </a>
             </li>
-          </ul>
-        </div>
+            </ul>
+</div>
       </div>
     </SidebarWrap>
   );

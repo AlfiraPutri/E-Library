@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { BlockContentWrap, BlockTitle } from "../../../styles/global/default";
-import { SalesUserWrap } from "./HomeUser.styles";
+import { DownloadUserWrap } from "./DownloadUser.styles";
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+
 
 const DownloadUser = ({ auth }) => {
     const [download, setDownload] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         const fetchDownload = async () => {
@@ -32,27 +36,50 @@ const DownloadUser = ({ auth }) => {
         fetchDownload();
     }, [auth.user.id_users]);
 
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+    };
+
     return (
-        <SalesUserWrap>
+        <DownloadUserWrap>
             <div className="block-head">
                 <div className="block-head-l">
                     <BlockTitle className="block-title">
-                        <h3>Download Buku</h3>
+                        {/* <h3>Download Buku</h3> */}
                     </BlockTitle>
-                    <p className="text">Temukan buku download</p>
+                    <p className="text">Temukan buku yang telah Anda download</p>
                 </div>
+            </div>
+            <div className="search-bar-wrapper">
+                <div className="search-bar">
+                <FontAwesomeIcon icon={faSearch} className="search-icon" />
+                    <input
+                    type="text"
+                    placeholder="Search ..."
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                    />
+                </div>
+
             </div>
             <BlockContentWrap>
                 <div className="book-collection">
-                    {download.map((entry) => (
+                    {download.length > 0 ? (
+                    download.map((entry) => (
                         <div key={entry.id} className="book-item">
                             <img src={`http://127.0.0.1:8000/storage/${entry.buku.img_buku}`} className="book-image" alt="Book Cover" />
                             <p className="book-title">{entry.buku.judul}</p>
                         </div>
-                    ))}
+                    ))
+                ) : (
+                    <div className="no-history-container">
+                            <img src="/images/not found.png" alt="No books" className="no-history-image" />
+                            <p className="no-history-text">Belum ada buku yang didownload </p>
+                        </div>
+                )}
                 </div>
             </BlockContentWrap>
-        </SalesUserWrap>
+        </DownloadUserWrap>
     );
 };
 

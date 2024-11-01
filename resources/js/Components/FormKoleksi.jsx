@@ -202,7 +202,7 @@ const CustomDialogTitle = styled(DialogTitle)(({ theme }) => ({
             label="Judul Buku"
             type="text"
             fullWidth
-            variant="standard"
+            variant="outlined"
             value={formData.judul}
             onChange={handleChange}
           />
@@ -214,7 +214,7 @@ const CustomDialogTitle = styled(DialogTitle)(({ theme }) => ({
             label="ISBN"
             type="text"
             fullWidth
-            variant="standard"
+            variant="outlined"
             value={formData.isbn}
             onChange={handleChange}
           />
@@ -226,7 +226,7 @@ const CustomDialogTitle = styled(DialogTitle)(({ theme }) => ({
             label="Jumlah Buku"
             type="number"
             fullWidth
-            variant="standard"
+            variant="outlined"
             value={formData.jumlah_buku}
             onChange={handleChange}
           />
@@ -238,7 +238,7 @@ const CustomDialogTitle = styled(DialogTitle)(({ theme }) => ({
             label="Kategori"
             select
             fullWidth
-            variant="standard"
+            variant="outlined"
             value={formData.id_kategori}
             onChange={handleChange}
           >
@@ -256,7 +256,7 @@ const CustomDialogTitle = styled(DialogTitle)(({ theme }) => ({
             label="Tanggal Terbit"
             type="date"
             fullWidth
-            variant="standard"
+            variant="outlined"
             InputLabelProps={{ shrink: true }}
             value={formData.tanggal_terbit}
             onChange={handleChange}
@@ -269,7 +269,7 @@ const CustomDialogTitle = styled(DialogTitle)(({ theme }) => ({
             label="Pengarang"
             type="text"
             fullWidth
-            variant="standard"
+            variant="outlined"
             value={formData.pengarang}
             onChange={handleChange}
           />
@@ -281,7 +281,7 @@ const CustomDialogTitle = styled(DialogTitle)(({ theme }) => ({
             label="Penerbit"
             type="text"
             fullWidth
-            variant="standard"
+            variant="outlined"
             value={formData.penerbit}
             onChange={handleChange}
           />
@@ -293,7 +293,7 @@ const CustomDialogTitle = styled(DialogTitle)(({ theme }) => ({
             label="Deskripsi"
             type="text"
             fullWidth
-            variant="standard"
+            variant="outlined"
             value={formData.deskripsi}
             onChange={handleChange}
           />
@@ -305,7 +305,7 @@ const CustomDialogTitle = styled(DialogTitle)(({ theme }) => ({
             label="Jumlah Halaman"
             type="number"
             fullWidth
-            variant="standard"
+            variant="outlined"
             value={formData.jumlah_halaman}
             onChange={handleChange}
           />
@@ -313,9 +313,11 @@ const CustomDialogTitle = styled(DialogTitle)(({ theme }) => ({
             margin="dense"
             id="img_buku"
             name="img_buku"
+            label="Upload Cover Buku"
             type="file"
             fullWidth
-            variant="standard"
+            variant="outlined"
+            InputLabelProps={{ shrink: true }}
             accept="image/*"
             onChange={handleFileChange}
           />
@@ -323,19 +325,24 @@ const CustomDialogTitle = styled(DialogTitle)(({ theme }) => ({
             margin="dense"
             id="file_upload"
             name="file_upload"
+            label="Upload File PDF"
             type="file"
             fullWidth
-            variant="standard"
+            variant="outlined"
+            InputLabelProps={{ shrink: true }}
             accept=".pdf,.epub"
             onChange={handleFileChange}
           />
-          </GridContainer>
 
         <DialogActions>
+        <div style={{ gridColumn: 'span 2', display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
           <CustomCancelButton onClick={handleClose}>Batal</CustomCancelButton>
           <CustomButton type="submit">Submit</CustomButton>
+          </div>
 
         </DialogActions>
+        </GridContainer>
+
         </form>
         </CustomDialogContent>
     </Dialog>

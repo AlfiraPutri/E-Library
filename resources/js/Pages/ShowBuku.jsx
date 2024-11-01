@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ShowBukuWrap, Container, Divider, InfoTitle, ContentWrapper, LeftColumn, RightColumn, CoverImage, Button, Title, Description, InfoSection, InfoItem, DownloadButton, SmileButton, Badge } from './ShowBuku.styles';
+import { ShowBukuWrap, Container, Divider, InfoTitle, ContentWrapper, LeftColumn, RightColumn, CoverImage, Button, Title, Description, InfoSection, InfoItem, DownloadButton, SmileButton, Badge, InfoTable } from './ShowBuku.styles';
 import { useParams, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDownload, faHeart } from '@fortawesome/free-solid-svg-icons';
 
 const ShowBukuPage = ({auth}) => {
     const { id } = useParams();
@@ -85,7 +87,6 @@ const ShowBukuPage = ({auth}) => {
 
     return (
         <ShowBukuWrap>
-
             <ContentWrapper>
                 <LeftColumn>
                     <CoverImage src={buku.img_buku} alt={buku.judul} />
@@ -93,11 +94,16 @@ const ShowBukuPage = ({auth}) => {
                     <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
                     {buku.file_upload && (
                         <a href={pdfUrl} download={buku.judul + '.pdf'} onClick={handleDownloadClick}>
-                            <DownloadButton>📥</DownloadButton>
+                            <Button small>
+                                <FontAwesomeIcon icon={faDownload} /> Download
+                                </Button>
+
                         </a>
                     )}
 
-                    <SmileButton onClick={handleAddToFavorites}>😊</SmileButton>
+                    <Button small onClick={handleAddToFavorites}>
+                    <FontAwesomeIcon icon={faHeart} /> Favorite
+                    </Button>
                     </div>
                 </LeftColumn>
 
@@ -107,8 +113,32 @@ const ShowBukuPage = ({auth}) => {
                     <Description>{buku.deskripsi}</Description>
 
                     <Divider />
-                    <InfoTitle>Informasi</InfoTitle>
+                    <InfoTitle>Informasi Buku</InfoTitle>
 
+                    <InfoTable>
+                        <tbody>
+                            <tr>
+                            <td><strong>ISBN:</strong></td>
+                            <td>{buku.isbn}</td>
+                            </tr>
+                            <tr>
+                            <td><strong>Pengarang:</strong></td>
+                            <td>{buku.pengarang}</td>
+                            </tr>
+                            <tr>
+                            <td><strong>Penerbit:</strong></td>
+                            <td>{buku.penerbit}</td>
+                            </tr>
+                            <tr>
+                            <td><strong>Tanggal Terbit:</strong></td>
+                            <td>{buku.tanggal_terbit}</td>
+                            </tr>
+                        </tbody>
+                    </InfoTable>
+                    {/* <SmileButton>
+                        <FontAwesomeIcon icon={faSmile} />
+                        Lihat Semua Buku
+                    </SmileButton>
                     <InfoSection>
                         <InfoItem>
                             <strong>ISBN:</strong> {buku.isbn}
@@ -122,7 +152,7 @@ const ShowBukuPage = ({auth}) => {
                         <InfoItem>
                             <strong>Tanggal Terbit:</strong> {buku.tanggal_terbit}
                         </InfoItem>
-                    </InfoSection>
+                    </InfoSection> */}
                 </RightColumn>
             </ContentWrapper>
 

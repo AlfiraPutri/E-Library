@@ -5,6 +5,7 @@ import { media } from "../../../styles/theme/theme";
 export const SalesUserWrap = styled.div`
     ${BlockWrapStyles}
 
+
     .block-head {
         display: flex;
         align-items: baseline;
@@ -16,54 +17,89 @@ export const SalesUserWrap = styled.div`
         }
     }
 
-    .search-bar {
-        margin: 16px 0;
+    .search-bar-wrapper {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 24px;
+        justify-content: space-between;
+        margin-top: 12px;
+
+        .search-bar {
+        position: relative;  // Tambahkan ini
+        width: 50%;
+}
 
         input {
             width: 100%;
             padding: 10px;
             border: 1px solid ${(props) => props.theme.colors.columbiaBlue};
-            border-radius: 6px;
-            font-size: 16px;
+            border-radius: 18px;
         }
+            .search-icon {
+                position: absolute;
+                top: 50%;
+                right: 20px;
+                transform: translateY(-50%);
+                color: ${(props) => props.theme.colors.columbiaBlue};
+                font-size: 18px;
+            }
     }
 
+
     .book-collection {
+
+        margin-top: 12px;
         display: flex;
         flex-wrap: wrap;
-        gap: 16px;
+        gap: 60px;
+        justify-content: flex-start;
+
 
         .book-item {
-            width: calc(25% - 16px);
+             width: calc(25% - 18px);
             text-align: center;
-            background-color: ${(props) => props.theme.colors.latte};
-            border-radius: 8px;
-            padding: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            height: 300px;
+            max-width: 180px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
             cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 16px;
 
 
-        .book-item:hover {
+
+
+        &:hover {
             transform: translateY(-10px); /* Menggerakkan card ke atas saat hover */
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Bayangan yang lebih besar saat hover */
         }
 
             .book-image {
-                width: 100%;
-                height: auto;
-                border-radius: 8px;
+               width: 100%;
+            height: 100%;
+            object-fit: cover;
+            margin-bottom: 12px; // Spasi antara gambar dan judul
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2); // Tambahkan bayangan di gambar untuk efek lebih 3D
+
+        }
+
             }
 
             .book-title {
-                margin-top: 8px;
+                margin-top: 12px;
                 font-size: 16px;
-                font-weight: 600;
+                font-weight: 400;
+                font-style: italic;
+                word-wrap: break-word;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                color: ${(props) => props.theme.colors.text};
             }
         }
 
         ${media.md`
             .book-item {
-                width: calc(50% - 16px);
+                width: calc(50% - 24px);
             }
         `}
 
@@ -75,15 +111,17 @@ export const SalesUserWrap = styled.div`
     }
 
     .category-section {
+
         margin-top: 24px;
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
 
+
         .category-item {
             padding: 10px 16px;
             background-color: ${(props) => props.theme.colors.latte};
-            border-radius: 6px;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
 
@@ -91,5 +129,20 @@ export const SalesUserWrap = styled.div`
                 background-color: ${(props) => props.theme.colors.salmon};
             }
         }
+
     }
+        .no-books-message {
+        font-size: 18px;
+        font-weight: 500;
+        color: ${(props) => props.theme.colors.danger};
+        text-align: center;
+        margin-top: 20px;
+    }
+        .category-filter select {
+
+        border: 1px solid ${(props) => props.theme.colors.columbiaBlue};
+        border-radius: 8px;
+
+    }
+
 `;

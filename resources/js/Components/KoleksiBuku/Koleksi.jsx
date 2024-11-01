@@ -10,6 +10,7 @@ import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import ArrowDownward from '@mui/icons-material/ArrowDownward';
 import Delete from '@mui/icons-material/Delete';
+import Swal from 'sweetalert2';
 
 const Koleksi = ({ setPageTitle }) => {
  // setPageTitle('Daftar Buku')
@@ -105,13 +106,28 @@ const Koleksi = ({ setPageTitle }) => {
 
 
   const handleDelete = async (id) => {
+    Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: 'Buku ini akan dihapus !',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#F9A01B',
+        cancelButtonColor: '#20326A',
+        confirmButtonText: 'Ya, Hapus!',
+        cancelButtonText: 'Batal',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
     try {
       await axios.delete(`http://127.0.0.1:8000/api/buku/${id}`);
       fetchBukus();
+      Swal.fire('Terhapus!', 'Buku berhasil dihapus.', 'success');
     } catch (error) {
       console.error('Error deleting buku:', error);
+      Swal.fire('Gagal', 'Terjadi kesalahan saat menghapus buku.', 'error');
     }
-  };
+}
+  });
+};
 
   const deleteAll = () => {
     const ids = selectedRows.map(row => row.id_buku);
@@ -146,11 +162,7 @@ const Koleksi = ({ setPageTitle }) => {
           <IconButton component={Link} to={`/dashboard/buku/edit/${row.id_buku}`} title="Edit">
             <FaEdit style={{ color: '#F77D00' }} />
           </IconButton>
-          <IconButton onClick={() => {
-              if (window.confirm('Are you sure you want to delete this data?')) {
-                handleDelete(row.id_buku);
-              }
-            }}
+          <IconButton onClick={() => handleDelete(row.id_buku)}
             title="Delete">
 
             <FaTrash style={{ color: '#F77D00' }} />

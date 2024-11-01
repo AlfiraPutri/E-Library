@@ -6,9 +6,12 @@ use App\Models\History;
 use App\Models\Buku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class HistoryController extends Controller
+
 {
+
     public function addToHistory(Request $request, $id)
     {
         Log::info('Data yang diterima:', $request->all());
@@ -45,5 +48,20 @@ class HistoryController extends Controller
         }catch(\Exception $exception){
         return response()->json(['message' => 'Error fetching history: ' . $exception->getMessage()], 500);
         }
+        }
+
+        public function getAllHistory() {
+            try {
+                // Ambil semua riwayat buku yang sudah dibaca dari semua user
+                $history = DB::table('histories')
+                    ->select('id_buku')
+                    ->distinct()
+                    ->get();
+
+                // Kembalikan data riwayat dalam format JSON
+                return response()->json($history);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Terjadi kesalahan saat mengambil data history'], 500);
+            }
         }
 }

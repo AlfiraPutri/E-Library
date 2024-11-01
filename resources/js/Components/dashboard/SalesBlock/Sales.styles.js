@@ -46,7 +46,7 @@ export const SalesBlockWrap = styled.div`
   }
 
   .card-item {
-    border-radius: 12px;
+    border-radius: 5px;
     padding: 16px 18px;
 
     ${media.xxl`
@@ -54,32 +54,33 @@ export const SalesBlockWrap = styled.div`
     `}
 
     &.card-misty-rose {
-      background-color: ${(props) => props.theme.colors.mistyRose};
-      .card-item-icon {
-        background-color: ${(props) => props.theme.colors.pink};
-      }
-    }
+  background-color: #20326A;
+  .card-item-icon {
+    background-color: #3C4D8A;
+  }
+}
 
-    &.card-latte {
-      background-color: ${(props) => props.theme.colors.latte};
-      .card-item-icon {
-        background-color: ${(props) => props.theme.colors.salmon};
-      }
-    }
+&.card-latte {
+  background-color: #F9A01B;
+  .card-item-icon {
+    background-color: #FBC259;
+  }
+}
 
-    &.card-nyanza {
-      background-color: ${(props) => props.theme.colors.nyanza};
-      .card-item-icon {
-        background-color: ${(props) => props.theme.colors.malachite};
-      }
-    }
+&.card-nyanza {
+  background-color: #20326A;
+  .card-item-icon {
+    background-color: #3C4D8A;
+  }
+}
 
-    &.card-pale-purple {
-      background-color: ${(props) => props.theme.colors.palePurple};
-      .card-item-icon {
-        background-color: ${(props) => props.theme.colors.violet};
-      }
-    }
+&.card-pale-purple {
+  background-color: #F9A01B;
+  .card-item-icon {
+    background-color: #FBC259;
+  }
+}
+
 
     .card-item-icon {
       border-radius: 100%;
@@ -99,11 +100,12 @@ export const SalesBlockWrap = styled.div`
       font-size: 22px;
       margin-top: 12px;
       margin-bottom: 4px;
-      color: ${(props) => props.theme.colors.cadet};
+      color: ${(props) => props.theme.colors.white};
     }
 
     .card-item-text {
       font-weight: 600;
+      color: ${(props) => props.theme.colors.white};
     }
 
     .card-item-sm-text {

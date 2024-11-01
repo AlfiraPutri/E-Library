@@ -24,7 +24,7 @@ const Home = () => {
       <Navbar />
       <Hero />
       <About />
-      <Service />
+      {/* <Service /> */}
       <Footer />
     </div>
   );

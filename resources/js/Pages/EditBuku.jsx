@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { SettingsContainer, ProfileSection, ProfileImage, FormField, FormSection, ButtonContainer } from './EditBuku.styles';
-
+import { SettingsContainer, ProfileSection, ProfileImage, FormField, FormSection, ButtonContainer, PdfLink } from './EditBuku.styles';
+import Swal from 'sweetalert2';
 
 const EditBukuPage = ({ setPageTitle }) => {
    // setPageTitle('Edit Buku')
@@ -120,9 +120,23 @@ const EditBukuPage = ({ setPageTitle }) => {
                     },
                 });
             }
-            console.log('Changes saved');
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: 'Data buku berhasil disimpan.',
+                confirmButtonColor: '#3085d6',
+            });
+
+          //  console.log('Changes saved');
         } catch (error) {
             console.error('Error saving changes:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: 'Terjadi kesalahan saat menyimpan data.',
+                confirmButtonColor: '#d33',
+            });
         }
     };
 
@@ -267,13 +281,14 @@ const EditBukuPage = ({ setPageTitle }) => {
                     <label>File Upload</label>
                     {/* Link to PDF */}
                     {formData.file_upload && (
-                        <a
+                        <PdfLink
+
                             href={formData.file_upload}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
                             View PDF
-                        </a>
+                        </PdfLink>
                     )}
                     <input
                         type="file"

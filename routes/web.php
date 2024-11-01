@@ -4,6 +4,10 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+
 
 
 
@@ -27,9 +31,22 @@ Route::get('/', function () {
       ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('BaseLayout', ['child' => 'Dashboard']);
-})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard/user', [AdminController::class, 'users']);
+    Route::get('/dashboard/user/edit/{id_users}', [AdminController::class, 'editUser']);
+    Route::get('/dashboard/buku', [AdminController::class, 'books']);
+    Route::get('/dashboard/buku/edit/{id_buku}', [AdminController::class, 'editBook']);
+    Route::get('/dashboard/kategori', [AdminController::class, 'categories']);
+
+    Route::get('/dashboard/profile', [AdminController::class, 'profile'])->name('mautauaja');
+});
+
+
+// Route::get('/dashboard', function () {
+//     return Inertia::render('BaseLayout', ['child' => 'Dashboard']);
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/user/dashboard', function () {
     return Inertia::render('BaseLayout', ['child' => 'DashboardUser']);
@@ -41,52 +58,67 @@ Route::get('/user/dashboard', function () {
 // });
 
 // Route untuk login
-Route::get('/login', function () {
-    return Inertia::render('Login');
-});
+// Route::get('/login', function () {
+//     return Inertia::render('Login');
+// });
 
-// Route untuk signup
-Route::get('/register', function () {
-    return Inertia::render('Signup');
-});
+// // Route untuk signup
+// Route::get('/register', function () {
+//     return Inertia::render('Signup');
+// });
+
+
+Route::get('/login', [AuthenticatedSessionController::class, 'create'])
+    ->name('login')
+    ->middleware('guest');
+
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+    ->middleware('guest');
+
+Route::get('/register', [RegisteredUserController::class, 'create'])
+    ->name('register')
+    ->middleware('guest');
+
+Route::post('/register', [RegisteredUserController::class, 'store'])
+    ->middleware('guest');
 
 // Dashboard Routes
 // Route::get('/dashboard', function () {
 //     return Inertia::render('BaseLayout', ['child' => 'Dashboard']);
 // });
 
-Route::get('/dashboard/user', function () {
-    return Inertia::render('BaseLayout', ['child' => 'User']);
-});
+// Route::get('/dashboard/user', function () {
+//     return Inertia::render('BaseLayout', ['child' => 'User']);
+// });
 
-Route::get('/dashboard/user/edit/{id_users}', function ($id) {
-    return Inertia::render('BaseLayout', [
-        'child' => 'UserDetailsPage',  // Ensure this matches the component name in your Pages directory
-    ]);
-});
+// Route::get('/dashboard/user/edit/{id_users}', function ($id) {
+//     return Inertia::render('BaseLayout', [
+//         'child' => 'UserDetailsPage',
+//     ]);
+// });
 
 
-Route::get('/dashboard/buku', function () {
-    return Inertia::render('BaseLayout', ['child' => 'Koleksi']);
-});
+// Route::get('/dashboard/buku', function () {
+//     return Inertia::render('BaseLayout', ['child' => 'Koleksi']);
+// });
 
-Route::get('/dashboard/buku/edit/{id_buku}', function ($id) {
-    return Inertia::render('BaseLayout', [
-        'child' => 'BukuDetailsPage',  // Ensure this matches the component name in your Pages directory
-    ]);
-});
+// Route::get('/dashboard/buku/edit/{id_buku}', function ($id) {
+//     return Inertia::render('BaseLayout', [
+//         'child' => 'BukuDetailsPage',
+//     ]);
+// });
 
-Route::get('/dashboard/kategori', function () {
-    return Inertia::render('BaseLayout', ['child' => 'Kategori']);
-});
+// Route::get('/dashboard/kategori', function () {
+//     return Inertia::render('BaseLayout', ['child' => 'Kategori']);
+// });
 
 // Route::get('/dashboard/review', function () {
 //     return Inertia::render('BaseLayout', ['child' => 'Review']);
 // });
 
-Route::get('/dashboard/profile', function () {
-    return Inertia::render('BaseLayout', ['child' => 'Profile']);
-});
+// Route::get('/dashboard/profile', function () {
+//     return Inertia::render('BaseLayout', ['child' => 'Profile']);
+// });
 
 //DashboardUser
 Route::get('/user/dashboard', function () {
@@ -95,7 +127,7 @@ Route::get('/user/dashboard', function () {
 
 Route::get('/user/buku/{id_buku}/show', function ($id) {
     return Inertia::render('BaseLayout', [
-        'child' => 'BukuShowPage',  // Ensure this matches the component name in your Pages directory
+        'child' => 'BukuShowPage',
     ]);
 });
 
