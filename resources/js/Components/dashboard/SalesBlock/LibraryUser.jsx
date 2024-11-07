@@ -6,10 +6,15 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-const LibraryUser = ({ auth }) => {
+const LibraryUser = ({ auth, setPageTitle }) => {
     const [history, setHistory] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setPageTitle('Riwayat Buku');
+      }, [setPageTitle]);
+
 
     useEffect(() => {
         const fetchHistory = async () => {

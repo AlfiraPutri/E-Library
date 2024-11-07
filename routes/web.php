@@ -33,14 +33,25 @@ Route::get('/', function () {
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    //buat admin
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/dashboard/user', [AdminController::class, 'users']);
     Route::get('/dashboard/user/edit/{id_users}', [AdminController::class, 'editUser']);
     Route::get('/dashboard/buku', [AdminController::class, 'books']);
     Route::get('/dashboard/buku/edit/{id_buku}', [AdminController::class, 'editBook']);
     Route::get('/dashboard/kategori', [AdminController::class, 'categories']);
+    Route::get('/dashboard/profile', [AdminController::class, 'profile']);
 
-    Route::get('/dashboard/profile', [AdminController::class, 'profile'])->name('mautauaja');
+    //buat user
+    Route::get('/user/dashboard', [AdminController::class, 'dashboardUser']);
+    Route::get('/user/history', [AdminController::class, 'history']);
+    Route::get('/user/download', [AdminController::class, 'downloads']);
+    Route::get('/user/favorite', [AdminController::class, 'favorites']);
+    Route::get('/user/buku/{id}/show', [AdminController::class, 'showBook']);
+    Route::get('/user/flipbook/{id}', [AdminController::class, 'flipBook']);
+    Route::get('/user/profile', [AdminController::class, 'profileUser']);
+
+
 });
 
 
@@ -121,35 +132,35 @@ Route::post('/register', [RegisteredUserController::class, 'store'])
 // });
 
 //DashboardUser
-Route::get('/user/dashboard', function () {
-    return Inertia::render('BaseLayout', ['child' => 'DashboardUser']);
-});
+// Route::get('/user/dashboard', function () {
+//     return Inertia::render('BaseLayout', ['child' => 'DashboardUser']);
+// });
 
-Route::get('/user/buku/{id_buku}/show', function ($id) {
-    return Inertia::render('BaseLayout', [
-        'child' => 'BukuShowPage',
-    ]);
-});
+// Route::get('/user/buku/{id_buku}/show', function ($id) {
+//     return Inertia::render('BaseLayout', [
+//         'child' => 'BukuShowPage',
+//     ]);
+// });
 
-Route::get('/user/history', function () {
-    return Inertia::render('BaseLayout', ['child' => 'LibraryUser']);
-})->middleware(['auth', 'verified'])->name('user.history');
+// Route::get('/user/history', function () {
+//     return Inertia::render('BaseLayout', ['child' => 'LibraryUser']);
+// })->middleware(['auth', 'verified'])->name('user.history');
 
-Route::get('/user/download', function () {
-    return Inertia::render('BaseLayout', ['child' => 'DashboardUser']);
-});
+// Route::get('/user/download', function () {
+//     return Inertia::render('BaseLayout', ['child' => 'DownloadUser']);
+// });
 
-Route::get('/user/favorite', function () {
-    return Inertia::render('BaseLayout', ['child' => 'DashboardUser']);
-});
+// Route::get('/user/favorite', function () {
+//     return Inertia::render('BaseLayout', ['child' => 'FavoriteUser']);
+// });
 
-Route::get('/user/profile', function () {
-    return Inertia::render('BaseLayout', ['child' => 'DashboardUser']);
-});
+// Route::get('/user/profile', function () {
+//     return Inertia::render('BaseLayout', ['child' => 'Profile']);
+// });
 
-Route::get('/user/flipbook/{id_buku}', function () {
-    return Inertia::render('BaseLayout', ['child' => 'DashboardUser']);
-});
+// Route::get('/user/flipbook/{id_buku}', function () {
+//     return Inertia::render('BaseLayout', ['child' => 'FlipBukuPage']);
+// });
 
 
 

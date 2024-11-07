@@ -21,16 +21,16 @@ const AppBarProfile = ({userProfile}) => {
       <div className="drop-info">
         <div className="drop-info-img">
         <img
-          src={profileData && profileData.user && profileData.user.img_user ?
-             `http://127.0.0.1:8000/storage/${profileData.user.img_user}`
+          src={userProfile && userProfile.user && userProfile.user.img_user ?
+             `http://127.0.0.1:8000/storage/${userProfile.user.img_user}`
             : '/images/profile_image.png'}
 
         />
         </div>
         <div className="drop-info-text">
           <div className="info-text-group">
-            <span>{profileData && profileData.user && profileData.user.username}</span>
-            <span>{profileData && profileData.user && profileData.user.role}</span>
+            <span>{userProfile && userProfile.user && userProfile.user.username}</span>
+            <span>{userProfile && userProfile.user && userProfile.user.role}</span>
 
           </div>
 

@@ -28,15 +28,25 @@ export const LibraryUserWrap = styled.div`
         margin-top: 12px;
 
         .search-bar {
-        position: relative;  // Tambahkan ini
+        position: relative;
         width: 50%;
-}
+        max-width: 400px;
+
 
         input {
             width: 100%;
             padding: 10px;
             border: 1px solid ${(props) => props.theme.colors.columbiaBlue};
-            border-radius: 18px;
+            border-radius: 8px;
+            background-color: ${(props) => props.theme.colors.lightGray};
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+
+            &:focus {
+                    outline: none;
+                    border-color: ${(props) => props.theme.colors.primary};
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                }
         }
             .search-icon {
                 position: absolute;
@@ -47,6 +57,7 @@ export const LibraryUserWrap = styled.div`
                 font-size: 18px;
             }
     }
+}
 
 
     .book-collection {
@@ -79,12 +90,12 @@ export const LibraryUserWrap = styled.div`
                width: 100%;
             height: 100%;
             object-fit: cover;
-            margin-bottom: 12px; // Spasi antara gambar dan judul
+            margin-bottom: 12px;
             box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2); // Tambahkan bayangan di gambar untuk efek lebih 3D
 
         }
 
-            }
+
 
             .book-title {
                 margin-top: 12px;
@@ -98,6 +109,7 @@ export const LibraryUserWrap = styled.div`
                 color: ${(props) => props.theme.colors.text};
             }
         }
+}
 
         ${media.md`
             .book-item {
@@ -153,11 +165,13 @@ export const LibraryUserWrap = styled.div`
     justify-content: center;
     margin-left: 400px;
     text-align: center;
+    margin-top: 20px;
+        padding: 20px;
 
 }
 
 .no-history-image {
-    width: 300px; /* Sesuaikan ukuran gambar */
+    width: 300px;
     height: auto;
     margin-bottom: 10px;
 
@@ -165,8 +179,19 @@ export const LibraryUserWrap = styled.div`
 
 .no-history-text {
     font-size: 16px;
-    color: #666; /* Sesuaikan warna teks */
+    color: #666;
 }
 
+${media.md`
+    .book-collection {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+`}
+
+${media.xs`
+    .book-collection {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+`}
 
 `;

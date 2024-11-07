@@ -17,6 +17,7 @@ const SalesBlock = () => {
     const [totalKategori, setTotalKategori] = useState(0);
     const [totalBukuTerbaca, setTotalBukuTerbaca] = useState(0);
 
+
     useEffect(() => {
         const fetchTotalUsers = async () => {
           try {

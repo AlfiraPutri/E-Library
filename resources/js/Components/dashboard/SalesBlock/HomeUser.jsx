@@ -61,7 +61,7 @@ const SalesUser = () => {
             <div className="block-head">
                 <div className="block-head-l">
                     <BlockTitle className="block-title">
-                        <h3>Discover</h3>
+                        {/* <h3>Discover</h3> */}
                     </BlockTitle>
                     <p className="text">Temukan buku yang Anda cari !</p>
                 </div>
@@ -93,7 +93,7 @@ const SalesUser = () => {
             {/* Book Collection */}
             <BlockContentWrap>
             <BlockTitle className="block-title">
-                        <h3>Koleksi Buku</h3>
+                        {/* <h3>Koleksi Buku</h3> */}
                     </BlockTitle>
                 <div className="book-collection">
                 {filteredBooks.length > 0 ? (

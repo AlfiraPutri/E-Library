@@ -72,7 +72,7 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  padding: 12px;
+  padding: 8px;
   background-color: #F77D00;
   color: white;
   border: none;

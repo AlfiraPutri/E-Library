@@ -15,7 +15,7 @@ import Add from '@mui/icons-material/Add';
 
 
 const DataUsers = ({ setPageTitle }) => {
-//  setPageTitle('Data Pengguna');
+
   const [pengguna, setUser] = useState([]);
   const [filteredPengguna, setFilteredPengguna] = useState([]);
   const [isFormUserOpen, setIsFormUserOpen] = useState(false);
@@ -25,7 +25,6 @@ const DataUsers = ({ setPageTitle }) => {
   const location = useLocation();
 
   useEffect(() => {
-    // Update title hanya di dalam useEffect
     setPageTitle('Daftar User');
   }, [setPageTitle]);
 

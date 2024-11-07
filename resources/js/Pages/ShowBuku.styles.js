@@ -43,6 +43,11 @@ export const ContentWrapper = styled.div`
     border-radius: 8px;
    // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        padding: 15px;
+    }
 `;
 
 export const LeftColumn = styled.div`
@@ -50,6 +55,11 @@ export const LeftColumn = styled.div`
     flex-direction: column;
     align-items: center;
     width: 40%;
+
+    @media (max-width: 768px) {
+        width: 100%;
+        align-items: center;
+    }
 `;
 
 export const RightColumn = styled.div`
@@ -57,6 +67,12 @@ export const RightColumn = styled.div`
     flex-direction: column;
     width: 60%;
     padding-left: 20px;
+
+    @media (max-width: 768px) {
+        width: 100%;
+        padding-left: 0;
+        margin-top: 20px;
+    }
 `;
 
 export const CoverImage = styled.img`
@@ -64,6 +80,10 @@ export const CoverImage = styled.img`
     height: auto;
     margin-bottom: 20px;
     border-radius: 8px;
+
+    @media (max-width: 768px) {
+        width: 80%;
+    }
 `;
 
 export const Badge = styled.div`
@@ -74,6 +94,11 @@ export const Badge = styled.div`
     margin-bottom: 15px;
     font-size: 14px;
     text-align: center;
+    font-weight: bold;
+
+    @media (max-width: 768px) {
+        font-size: 12px;
+    }
 `;
 
 export const ButtonGroup = styled.div`
@@ -94,6 +119,7 @@ export const Button = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
+    font-weight: bold;
 
     &:hover {
         opacity: 0.8;
@@ -107,9 +133,15 @@ export const Button = styled.button`
     ${props => props.small && `
         padding: 10px 30px;
         font-size: 14px;
-        width: auto;
+        width: 130px;
         background-color: #20326A;
     `}
+
+    @media (max-width: 768px) {
+        padding: ${props => props.small ? '8px 20px' : '10px 60px'};
+        font-size: 14px;
+    }
+
 `;
 
 export const Divider = styled.hr`
@@ -123,15 +155,21 @@ export const InfoTitle = styled.h3`
     margin-top: 10px;
     margin-bottom: 10px;
     font-size: 18px;
-    color: #333;
+    color: #FFA500;
     font-weight: bold;
 `;
 
 
 export const Title = styled.h2`
     font-size: 24px;
-    color: #FF7F50;
+    color: #20326A;
     margin-bottom: 10px;
+     font-weight: bold;
+
+    @media (max-width: 768px) {
+        font-size: 20px;
+        text-align: center;
+    }
 `;
 
 export const Description = styled.p`
@@ -139,6 +177,10 @@ export const Description = styled.p`
     color: #666;
     text-align: justify;
     margin-bottom: 20px;
+
+     @media (max-width: 768px) {
+        font-size: 14px;
+    }
 `;
 
 export const InfoSection = styled.div`
@@ -187,10 +229,14 @@ export const InfoTable = styled.table`
     td {
         padding: 8px;
         border-bottom: 1px solid #ddd;
+
+        @media (max-width: 768px) {
+            padding: 6px;
+        }
     }
 
     strong {
-        color: #FF7F50;
+        color: #20326A;
     }
 `;
 

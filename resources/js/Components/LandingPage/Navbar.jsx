@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaInstagram, FaYoutube, FaUserAstronaut, FaUserCircle } from "react-icons/fa"; // Add icons
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaInstagram, FaYoutube, FaUserAstronaut, FaUserCircle } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 
 const Navbar = ({}) => {
@@ -16,27 +16,26 @@ const Navbar = ({}) => {
     };
 
     useEffect(() => {
-        updateTime(); // Set initial time
-        const intervalId = setInterval(updateTime, 1000); // Update every second
-
-        return () => clearInterval(intervalId); // Clean up the interval on component unmount
+        updateTime();
+        const intervalId = setInterval(updateTime, 1000);
+        return () => clearInterval(intervalId);
     }, []);
 
     return (
 
         <nav className="bg-[#D6511F] shadow-md">
-        <div className="container mx-auto px-4 py-2 flex justify-between items-center">
+        <div className="container mx-auto px-4 py-2 flex flex-col md:flex-row md:justify-between items-center">
             {/* Left side - Logo */}
             <div className="flex items-center gap-2">
-                <img src="images/logo.png" className="w-14 h-14" alt="Logo" />
+                <img src="images/logo.png" className="w-14 h-14w-10 h-10 md:w-14 md:h-14" alt="Logo" />
                 <div>
-                    <h1 className="text-white text-xl font-bold">PERPUSTAKAAN</h1>
-                    <p className="text-white text-sm">Balai Pengembangan Kompetensi Wilayah VI Surabaya</p>
+                    <h1 className="text-white text-xl md:text-xl font-bold">PERPUSTAKAAN</h1>
+                    <p className="text-white text-sm md:text-sm">Balai Pengembangan Kompetensi Wilayah VI Surabaya</p>
                 </div>
             </div>
 
             {/* Center - Contact Info */}
-            <div className="flex items-center space-x-6 text-white text-sm">
+            <div className="hidden md:flex items-center space-x-6 text-white text-xs md:text-sm">
                 <div className="flex items-center space-x-2">
                     <FaPhoneAlt />
                     <span>(031) 8291040</span>
@@ -53,8 +52,8 @@ const Navbar = ({}) => {
             </div>
 
             {/* Right side - Social icons */}
-            <div className="flex items-center space-x-4 text-white">
-            <a href="/login" className="flex items-center gap-2 border border-white px-6 py-2 rounded-full hover:shadow-custom-inset hover:bg-primary hover:border-transparent transition-all duration-200">
+            <div className="flex items-center space-x-2 mt-2 md:mt-0 text-white">
+            <a href="/login" className="flex items-center gap-2 border border-white px-4 py-1 md:px-6 md:py-2 rounded-full hover:shadow-custom-inset hover:bg-primary hover:border-transparent transition-all duration-200 text-white text-xs md:text-sm">
                         <FaUserCircle />
                         <span>LOGIN</span>
                     </a>

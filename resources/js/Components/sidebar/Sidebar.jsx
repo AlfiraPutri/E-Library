@@ -4,6 +4,8 @@ import { MdOutlineClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { setSidebarClose } from "../../redux/slices/sidebarSlice";
 import { useForm } from '@inertiajs/react';
+import Swal from 'sweetalert2';
+
 
 const Icons = {
   LogoWhite: '/icons/logo_white.svg',
@@ -24,10 +26,29 @@ const Sidebar = () => {
     dispatch(setSidebarClose());
   };
 
+//   const handleLogout = (e) => {
+//     e.preventDefault();
+//     post(route('logout'));
+//   };
+
   const handleLogout = (e) => {
     e.preventDefault();
-    post(route('logout'));
+    Swal.fire({
+      title: 'Apakah Anda yakin?',
+      text: "Anda akan keluar dari akun ini.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#F9A01B',
+      cancelButtonColor: '#20326A',
+      confirmButtonText: 'Ya, keluar!',
+      cancelButtonText: 'Batal'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        post(route('logout'));
+      }
+    });
   };
+
 
 
   return (

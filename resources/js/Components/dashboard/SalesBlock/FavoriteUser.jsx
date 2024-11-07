@@ -5,9 +5,14 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-const FavoriteUser = ({ auth }) => {
+const FavoriteUser = ({ auth, setPageTitle }) => {
     const [favorite, setFavorite] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+
+    useEffect(() => {
+        setPageTitle('Favorit Buku');
+      }, [setPageTitle]);
+
 
     useEffect(() => {
         const fetchFavorite = async () => {

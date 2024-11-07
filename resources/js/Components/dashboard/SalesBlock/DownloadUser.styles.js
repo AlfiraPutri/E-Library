@@ -28,15 +28,25 @@ export const DownloadUserWrap = styled.div`
         margin-top: 12px;
 
         .search-bar {
-        position: relative;  // Tambahkan ini
+        position: relative;
         width: 50%;
-}
+         max-width: 400px;
+
 
         input {
             width: 100%;
             padding: 10px;
             border: 1px solid ${(props) => props.theme.colors.columbiaBlue};
-            border-radius: 18px;
+            border-radius: 8px;
+            background-color: ${(props) => props.theme.colors.lightGray};
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+
+            &:focus {
+                    outline: none;
+                    border-color: ${(props) => props.theme.colors.primary};
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                }
         }
             .search-icon {
                 position: absolute;
@@ -47,6 +57,7 @@ export const DownloadUserWrap = styled.div`
                 font-size: 18px;
             }
     }
+}
 
 
     .book-collection {

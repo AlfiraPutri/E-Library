@@ -5,11 +5,16 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faHeart } from '@fortawesome/free-solid-svg-icons';
 
-const ShowBukuPage = ({auth}) => {
+const ShowBukuPage = ({auth, setPageTitle}) => {
     const { id } = useParams();
     const [buku, setBuku] = useState(null);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setPageTitle('Detail Buku');
+      }, [setPageTitle]);
+
 
     useEffect(() => {
         // Fetch buku from API

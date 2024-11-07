@@ -13,18 +13,19 @@ const Icons = {
     // NotificationOrange: '/icons/notification_orange.svg',
 }
 
-const AppBar = ({ pageTitle, setPageTitle, userProfile }) => {
-    const [searchQuery, setSearchQuery] = useState(""); // State untuk query pencarian
-    const [debouncedQuery, setDebouncedQuery] = useState(searchQuery); // State untuk debounced query
+const AppBar = ({ auth, pageTitle, setPageTitle, userProfile}) => {
+    const [searchQuery, setSearchQuery] = useState("");
+    const [debouncedQuery, setDebouncedQuery] = useState(searchQuery);
     const [isSearching, setIsSearching] = useState(false);
     const inputControlRef = useRef(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const location = useLocation();  // Ambil lokasi saat ini
+    const location = useLocation();
 
     const [showInputControl, setShowInputControl] = useState(false);
     const handleInputControlVisibility = () =>
       setShowInputControl(!showInputControl);
+
 
     useEffect(() => {
       const handler = setTimeout(() => {

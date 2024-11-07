@@ -6,9 +6,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 
-const DownloadUser = ({ auth }) => {
+const DownloadUser = ({ auth, setPageTitle }) => {
     const [download, setDownload] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+
+    useEffect(() => {
+        setPageTitle('Download Buku');
+      }, [setPageTitle]);
+
 
     useEffect(() => {
         const fetchDownload = async () => {

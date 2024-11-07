@@ -16,6 +16,7 @@ export const AppBarWrap = styled.div`
   ${media.xxxl`
     margin: 12px;
   `}
+  
 
   .appbar-content {
     display: flex;
@@ -295,7 +296,22 @@ export const AppBarWrap = styled.div`
       ${media.md`
         min-width: auto;
         width: auto;
+        font-size: 12px;
       `}
+
+      ${media.sm`
+        min-width: auto;
+        width: auto;
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+        font-size: 12px;
+      `}
+
+      ${media.xs`
+        display: none;
+      `}
+
 
       span {
         &:nth-child(1) {
@@ -304,7 +320,11 @@ export const AppBarWrap = styled.div`
           overflow: hidden;
           white-space: nowrap;
 
-          ${media.md`
+          ${media.sm`
+            font-size: 14px;
+          `}
+
+          ${media.xs`
             display: none;
           `}
         }
@@ -312,7 +332,11 @@ export const AppBarWrap = styled.div`
           font-size: 14px;
           color: ${(props) => props.theme.colors.gray700};
 
-          ${media.lg`
+          ${media.sm`
+            font-size: 12px;
+          `}
+
+          ${media.xs`
             display: none;
           `}
         }
@@ -325,9 +349,14 @@ export const AppBarWrap = styled.div`
       overflow: hidden;
       border-radius: 100%;
 
-      ${media.lg`
-        width: 32px;
-        height: 32px;
+      ${media.md`
+        width: 35px;
+        height: 35px;
+      `}
+
+      ${media.sm`
+        width: 30px;
+        height: 30px;
       `}
 
       img {
