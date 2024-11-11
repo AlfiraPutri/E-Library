@@ -68,13 +68,13 @@ const Navbar = ({}) => {
                 <span dangerouslySetInnerHTML={{ __html: time }} />
                     </div>
             <div className="flex items-center space-x-8 text-black">
-            <a href="https://www.instagram.com/pupr_bpsdm_bapekom6/">
+            <a href="https://www.instagram.com/pupr_bpsdm_bapekom6/" target="_blank" rel="noopener noreferrer">
                 <FaInstagram/>
               </a>
-              <a href="https://www.facebook.com/pupr.bpsdm.bapekom6?_rdc=1&_rdr">
+              <a href="https://www.facebook.com/pupr.bpsdm.bapekom6?_rdc=1&_rdr" target="_blank" rel="noopener noreferrer">
                 <FaFacebook />
               </a>
-              <a href="https://www.youtube.com/channel/UCeOB5nYLfjM8VmiN6mFc58g">
+              <a href="https://www.youtube.com/channel/UCeOB5nYLfjM8VmiN6mFc58g" target="_blank" rel="noopener noreferrer">
                 <FaYoutube />
               </a>
             </div>

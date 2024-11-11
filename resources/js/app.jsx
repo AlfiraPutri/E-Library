@@ -11,7 +11,7 @@ import store from './redux/store.js';
 import { GlobalStyles } from './styles/global/GlobalStyles';
 import { BrowserRouter } from 'react-router-dom';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'Library';
 
 // Function to resolve the page components dynamically
 const resolvePage = async (name) => {

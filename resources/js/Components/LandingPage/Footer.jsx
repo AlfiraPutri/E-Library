@@ -34,13 +34,13 @@ const Footer = () => {
             </div>
             {/* Social Handle */}
             <div className="flex justify-center items-center gap-3 mt-6">
-              <a href="https://www.instagram.com/pupr_bpsdm_bapekom6/">
+              <a href="https://www.instagram.com/pupr_bpsdm_bapekom6/" target="_blank" rel="noopener noreferrer">
                 <FaInstagram className="text-3xl text-white hover:text-yellow-500 duration-300" />
               </a>
-              <a href="https://www.facebook.com/pupr.bpsdm.bapekom6?_rdc=1&_rdr">
+              <a href="https://www.facebook.com/pupr.bpsdm.bapekom6?_rdc=1&_rdr" target="_blank" rel="noopener noreferrer">
                 <FaFacebook className="text-3xl text-white hover:text-yellow-500 duration-300" />
               </a>
-              <a href="https://www.youtube.com/channel/UCeOB5nYLfjM8VmiN6mFc58g">
+              <a href="https://www.youtube.com/channel/UCeOB5nYLfjM8VmiN6mFc58g" target="_blank" rel="noopener noreferrer">
                 <FaYoutube className="text-3xl text-white hover:text-yellow-500 duration-300" />
               </a>
             </div>

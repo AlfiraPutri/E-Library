@@ -58,7 +58,7 @@ const Sidebar = () => {
           <span className="brand-logo">
             <img src="/images/logo.png" alt="site brand logo" />
           </span>
-          <span className="brand-text">E-Library</span>
+          <span className="brand-text">Perpustakaan <br />Digital</span>
         </div>
         <button
           className="sidebar-close-btn"
@@ -79,7 +79,7 @@ const Sidebar = () => {
                 <span className="menu-link-icon">
                   <img src={Icons.Chart} alt="" />
                 </span>
-                <span className="menu-link-text">Home</span>
+                <span className="menu-link-text">Beranda</span>
               </NavLink>
             </li>
             <li className="menu-item">
@@ -138,7 +138,7 @@ const Sidebar = () => {
                 <span className="menu-link-icon">
                   <img src={Icons.Cog} alt="" />
                 </span>
-                <span className="menu-link-text">Profile</span>
+                <span className="menu-link-text">Profil</span>
               </NavLink>
             </li>
             <li className="menu-item">

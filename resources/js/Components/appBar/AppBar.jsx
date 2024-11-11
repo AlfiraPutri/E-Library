@@ -111,7 +111,7 @@ const AppBar = ({ auth, pageTitle, setPageTitle, userProfile}) => {
                     type="text"
                     value={searchQuery} // Bind the input value to searchQuery state
                     onChange={handleSearchInputChange}
-                    placeholder="Search . . ."
+                    placeholder="Pencarian . . ."
                     className={`input-control ${
                       showInputControl ? "show-input-control" : ""
                     }`}

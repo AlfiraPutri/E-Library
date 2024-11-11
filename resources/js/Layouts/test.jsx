@@ -18,7 +18,7 @@ import FavoriteUser from "../Components/dashboard/SalesBlock/FavoriteUser";
 import ShowBukuPage from "../Pages/ShowBuku";
 import FlipBukuPage from "../Pages/FlipBuku";
 import * as React from 'react';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const BaseLayout = ({auth}) => {
   const location = useLocation();
@@ -29,35 +29,45 @@ const BaseLayout = ({auth}) => {
   const isEditBukuRoute = location.pathname.startsWith('/dashboard/buku/edit');
   const isEditUserRoute = location.pathname.startsWith('/dashboard/user/edit');
   const isProfileRoute = location.pathname.startsWith('/dashboard/profile') || location.pathname.startsWith('/user/profile');
-  const [isUserRouteSession, setIsUserRouteSession]= useState(false);
+//   const [isUserRouteSession, setIsUserRouteSession]= useState(false);
   const isUserRoute = location.pathname.startsWith('/user');
 
+  const navigatedRef = useRef(false);
+
   useEffect(() => {
-    if (auth) {
-
+    if (auth?.user?.role && !navigatedRef.current) {
       const isUserRole = auth.user.role !== 'admin';
-      setIsUserRouteSession(isUserRole);
 
+      // Navigasi hanya jika kondisi peran tidak sesuai dengan rute saat ini
       if (isUserRole && !isUserRoute) {
         navigate('/user/dashboard');
+        navigatedRef.current = true;
       } else if (!isUserRole && isUserRoute) {
         navigate('/dashboard');
+        navigatedRef.current = true;
       }
     }
-  }, [auth, isUserRoute, navigate]);
+  }, [auth?.user?.role, isUserRoute, location.pathname, navigate]);
+
+  if (!auth) {
+    return null; // Pastikan komponen tidak dirender sebelum autentikasi selesai
+  }
+
+
 
 
   return (
     <div className="page-wrapper">
-      {!isEditUserRoute && (isUserRouteSession ? <SidebarUser /> : <Sidebar />)}
+      {!isEditUserRoute && (auth.user.role !== 'admin' ? <SidebarUser /> : <Sidebar />)}
 
       <div className="content-wrapper">
         {!isProfileRoute && !isEditBukuRoute && (
-             isUserRouteSession ?
+            auth.user.role !== 'admin' ? (
             <AppBarUser userProfile={auth} pageTitle={pageTitle} setPageTitle={setPageTitle} />
-            :
+        ) : (
             <AppBar userProfile={auth} pageTitle={pageTitle} setPageTitle={setPageTitle} />
-        )}
+        )
+    )}
 
         {/* <Outlet /> */}
         <Routes>
@@ -74,9 +84,6 @@ const BaseLayout = ({auth}) => {
           <Route path="/dashboard/buku/edit/:id" element={<BukuDetailsPage setPageTitle={setPageTitle}/>} />
           <Route path="/dashboard/user/edit/:id" element={<UserDetailsPage />} />
 
-
-
-
           {/* Routes for user */}
 
           <Route path="/user/dashboard" element={<DashboardUser setPageTitle={setPageTitle}/>} />
@@ -86,8 +93,6 @@ const BaseLayout = ({auth}) => {
           <Route path="/user/buku/:id/show" element={<ShowBukuPage auth={auth} setPageTitle={setPageTitle}/>} />
           <Route path="/user/flipbook/:id" element={<FlipBukuPage auth={auth}/>} />
           <Route path="/user/profile" element={<Profile auth={auth} />} />
-
-
 
         </Routes>
         <Outlet />

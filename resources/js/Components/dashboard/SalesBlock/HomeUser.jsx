@@ -73,7 +73,7 @@ const SalesUser = () => {
                 <FontAwesomeIcon icon={faSearch} className="search-icon" />
                     <input
                     type="text"
-                    placeholder="Search ..."
+                    placeholder="Pencarian ..."
                     value={searchQuery}
                     onChange={handleSearchChange}
                     />

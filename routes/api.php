@@ -41,12 +41,6 @@ Route::post('/buku', [BukuController::class, 'store']);
 Route::post('/buku/{id}/edit', [BukuController::class, 'update']);
 Route::delete('/buku/{id}', [BukuController::class, 'destroy']);
 
-//api review
-Route::get('/review', [ReviewController::class, 'index']);
-Route::post('/review', [ReviewController::class, 'store']);
-Route::put('/review/{id}', [ReviewController::class, 'update']);
-Route::delete('/review/{id}', [ReviewController::class, 'destroy']);
-
 
 //halaman user
 Route::get('/user/buku/{id}/show', [BukuController::class, 'show']);

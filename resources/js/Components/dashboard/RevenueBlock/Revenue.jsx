@@ -22,17 +22,19 @@ const Revenue = () => {
         const response = await axios.get("http://127.0.0.1:8000/api/history");
         const history = response.data;
 
+        console.log("Data dari API:", history);
         // Initialize an object to store unique books read per month
         const booksPerMonth = {};
 
         history.forEach((entry) => {
-            // Memastikan bahwa created_at dan id_buku ada
-            if (entry.created_at && entry.id_buku) {
+            if (!entry.created_at || !entry.id_buku) {
+              console.warn("Melewati entri dengan field yang hilang. Detail entri:", entry);
+            } else {
               const isoDate = entry.created_at.replace(" ", "T");
               const date = new Date(isoDate);
 
               if (!isNaN(date)) {
-                const month = date.toLocaleString("default", { month: "long", year: "numeric" });
+                const month = date.toLocaleString("default", { month: "long" });
 
                 if (!booksPerMonth[month]) {
                   booksPerMonth[month] = new Set();
@@ -42,10 +44,9 @@ const Revenue = () => {
               } else {
                 console.error(`Format tanggal tidak valid untuk entri: ${entry.created_at}`);
               }
-            } else {
-              console.warn("Melewati entri dengan field yang hilang:", entry);
             }
           });
+
 
 
         // Format data for the chart
@@ -100,7 +101,7 @@ const Revenue = () => {
             <Bar
               dataKey="jumlah"
               name="Jumlah Buku Terbaca"
-              fill="#00E096"
+              fill="#F9A01B"
               radius={[4, 4, 0, 0]}
               barSize={18}
             />

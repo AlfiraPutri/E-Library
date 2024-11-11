@@ -88,7 +88,7 @@ const VisitorsBlock = () => {
             <Legend iconType="square" />
             <Line
               type="monotone"
-              dataKey="user"  // This should be the count of users per month
+              dataKey="user"  
               stroke="#F9A01B"
               strokeWidth={4}
               dot={false}

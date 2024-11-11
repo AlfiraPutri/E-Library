@@ -57,7 +57,7 @@ const SidebarUser = () => {
           <span className="brand-logo">
             <img src="/images/logo.png" alt="site brand logo" />
           </span>
-          <span className="brand-text">E-Library</span>
+          <span className="brand-text">Perpustakaan <br />Digital</span>
         </div>
         <button
           className="sidebar-close-btn"
@@ -78,7 +78,7 @@ const SidebarUser = () => {
                 <span className="menu-link-icon">
                   <img src={Icons.Chart} alt="" />
                 </span>
-                <span className="menu-link-text">Home</span>
+                <span className="menu-link-text">Beranda</span>
               </NavLink>
             </li>
             <li className="menu-item">
@@ -89,7 +89,7 @@ const SidebarUser = () => {
                 <span className="menu-link-icon">
                   <img src={Icons.Graph} alt="" />
                 </span>
-                <span className="menu-link-text">History</span>
+                <span className="menu-link-text">Riwayat</span>
               </NavLink>
             </li>
             <li className="menu-item">
@@ -111,7 +111,7 @@ const SidebarUser = () => {
                 <span className="menu-link-icon">
                   <img src={Icons.Bag} alt="" />
                 </span>
-                <span className="menu-link-text">Favorite</span>
+                <span className="menu-link-text">Favorit</span>
               </NavLink>
             </li>
             {/* <li className="menu-item">
@@ -137,7 +137,7 @@ const SidebarUser = () => {
                 <span className="menu-link-icon">
                   <img src={Icons.Cog} alt="" />
                 </span>
-                <span className="menu-link-text">Profile</span>
+                <span className="menu-link-text">Profil</span>
               </NavLink>
             </li>
             <li className="menu-item">

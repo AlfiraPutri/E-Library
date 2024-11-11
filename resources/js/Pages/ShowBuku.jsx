@@ -4,6 +4,7 @@ import { ShowBukuWrap, Container, Divider, InfoTitle, ContentWrapper, LeftColumn
 import { useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faHeart } from '@fortawesome/free-solid-svg-icons';
+import Swal from 'sweetalert2';
 
 const ShowBukuPage = ({auth, setPageTitle}) => {
     const { id } = useParams();
@@ -71,9 +72,22 @@ const ShowBukuPage = ({auth, setPageTitle}) => {
                 judul: buku.judul,
                 img_buku: buku.img_buku,
             });
-            console.log('Buku ditambahkan ke favorit:', response.data);
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: 'Buku telah ditambahkan ke favorit!',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#F77D00'
+            });
         } catch (error) {
             console.error('Error adding to favorites:', error.response ? error.response.data : error.message);
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: 'Terjadi kesalahan saat menambahkan ke favorit.',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#F77D00'
+            });
         }
     };
 

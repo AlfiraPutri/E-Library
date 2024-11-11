@@ -5,7 +5,7 @@ export const AppBarWrap = styled.div`
   box-shadow: 0 0.125rem 0.25rem rgba(165, 163, 174, 0.3);
   padding: 14px 24px;
   margin: 16px;
-  margin-left: 1000px;
+ // margin-left: 1000px;
   border-radius: 6px;
   background-color: ${(props) => props.theme.colors.white};
 
@@ -16,7 +16,7 @@ export const AppBarWrap = styled.div`
   ${media.xxxl`
     margin: 12px;
   `}
-  
+
 
   .appbar-content {
     display: flex;

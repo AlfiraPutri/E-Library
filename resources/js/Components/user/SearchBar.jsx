@@ -51,7 +51,7 @@ const SearchBar = () => {
                 <input
                   ref={inputControlRef}
                   type="text"
-                  placeholder="Search here ..."
+                  placeholder="Pencarian ..."
                   className={`input-control ${
                     showInputControl ? "show-input-control" : ""
                   }`}

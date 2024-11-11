@@ -54,7 +54,7 @@ class HistoryController extends Controller
             try {
                 // Ambil semua riwayat buku yang sudah dibaca dari semua user
                 $history = DB::table('histories')
-                    ->select('id_buku')
+                    ->select('id_buku', 'created_at')
                     ->distinct()
                     ->get();
 

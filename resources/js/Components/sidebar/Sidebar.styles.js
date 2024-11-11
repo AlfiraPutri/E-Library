@@ -79,19 +79,36 @@ export const SidebarWrap = styled.div`
   }
 
   .brand-text {
-    font-size: 24px;
+   // display: grid;
+    grid-template-rows: 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+    font-size: 18px;
     font-weight: 600;
     color: ${(props) => props.theme.colors.cadet};
     font-family: 'Poppins', sans-serif;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+
 
     ${media.xxl`
       display: inline;
     `}
 
     ${media.xl`
-      display: inline;
+
+    display: inline;
+//     flex-direction: column;
+//     align-items: flex-start;
+//     line-height: 1.2;
     `}
+
+     ${media.lg`
+    font-size: 12px;
+    line-height: 1.1;
+    display: inline;
+  `}
+
+
   }
 
   .sidebar-close-btn {
