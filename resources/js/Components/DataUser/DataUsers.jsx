@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BlockTitle } from "../../styles/global/default";  // Disesuaikan dengan lokasi file
+import { BlockTitle } from "../../styles/global/default";
 import { DataUsersWrap } from "./DataUsers.styles";
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
-import FormUser from '../FormUser'; // Pastikan jalur file benar
+import FormUser from '../FormUser';
 import { useLocation } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import Checkbox from '@mui/material/Checkbox';
@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 import Add from '@mui/icons-material/Add';
 
 
-const DataUsers = ({ setPageTitle }) => {
+const DataUsers = () => {
 
   const [pengguna, setUser] = useState([]);
   const [filteredPengguna, setFilteredPengguna] = useState([]);
@@ -24,9 +24,9 @@ const DataUsers = ({ setPageTitle }) => {
   const [toggleCleared, setToggleCleared] = useState(false);
   const location = useLocation();
 
-  useEffect(() => {
-    setPageTitle('Daftar User');
-  }, [setPageTitle]);
+//   useEffect(() => {
+//     setPageTitle('Daftar User');
+//   }, [setPageTitle]);
 
   useEffect(() => {
     fetchUser();

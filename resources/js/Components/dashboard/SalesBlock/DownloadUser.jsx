@@ -6,13 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 
-const DownloadUser = ({ auth, setPageTitle }) => {
+const DownloadUser = ({ auth  }) => {
     const [download, setDownload] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
 
-    useEffect(() => {
-        setPageTitle('Download Buku');
-      }, [setPageTitle]);
+    // useEffect(() => {
+    //     setPageTitle('Download Buku');
+    //   }, [setPageTitle]);
 
 
     useEffect(() => {

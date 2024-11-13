@@ -6,15 +6,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faHeart } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
 
-const ShowBukuPage = ({auth, setPageTitle}) => {
+const ShowBukuPage = ({auth}) => {
     const { id } = useParams();
     const [buku, setBuku] = useState(null);
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        setPageTitle('Detail Buku');
-      }, [setPageTitle]);
+    // useEffect(() => {
+    //     setPageTitle('Detail Buku');
+    //   }, [setPageTitle]);
 
 
     useEffect(() => {

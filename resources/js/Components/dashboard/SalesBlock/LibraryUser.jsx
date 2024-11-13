@@ -6,14 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-const LibraryUser = ({ auth, setPageTitle }) => {
+const LibraryUser = ({ auth}) => {
     const [history, setHistory] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
 
-    useEffect(() => {
-        setPageTitle('Riwayat Buku');
-      }, [setPageTitle]);
+    // useEffect(() => {
+    //     setPageTitle('Riwayat Buku');
+    //   }, [setPageTitle]);
 
 
     useEffect(() => {
@@ -58,7 +58,7 @@ const LibraryUser = ({ auth, setPageTitle }) => {
                     <BlockTitle className="block-title">
                         {/* <h3>History Buku</h3> */}
                     </BlockTitle>
-                    <p className="text">Temukan history buku Anda </p>
+                    <p className="text">Temukan riwayat buku yang telah Anda baca </p>
                 </div>
             </div>
 

@@ -101,7 +101,7 @@ export const DownloadUserWrap = styled.div`
                 margin-top: 12px;
                 font-size: 16px;
                 font-weight: 400;
-                font-style: italic;
+            //    font-style: italic;
                 word-wrap: break-word;
                 text-overflow: ellipsis;
                 overflow: hidden;

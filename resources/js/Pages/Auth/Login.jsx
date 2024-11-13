@@ -2,6 +2,7 @@ import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { useForm } from '@inertiajs/react';
 import { FiUser, FiLock } from 'react-icons/fi';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 
 const TextInput = forwardRef(function TextInput(
     { type = 'text', className = '', isFocused = false, icon = null, placeholder = '', ...props }, ref) {
@@ -28,6 +29,7 @@ const TextInput = forwardRef(function TextInput(
     });
 
 const Login = ({ status, canResetPassword }) => {
+    const navigate = useNavigate();
     const { data, setData, post, processing, errors, reset } = useForm({
         username: '',
         password: '',
@@ -38,8 +40,11 @@ const Login = ({ status, canResetPassword }) => {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route('login'), {
-            onFinish: () => reset('password'),
+        post(route("login"), {
+            onFinish: () => {
+                reset("password");
+                navigate("/dashboard");
+            },
         });
     };
 

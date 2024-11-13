@@ -52,8 +52,8 @@ const PreviewImage = styled('img')({
 
   const GridContainer = styled('div')({
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr', // Dua kolom yang sama besar
-    gap: '20px', // Jarak antara kolom
+    gridTemplateColumns: '1fr 1fr',
+    gap: '20px', 
 
   });
 
@@ -69,7 +69,7 @@ export default function FormUser({ open, handleClose, onSubmit, users, fetchUser
     email: users ? users.email : '',
     username: users ? users.username : '',
     password: users ? users.password : '',
-    role: users ? users.role : '', // Ensure role is initialized
+    role: users ? users.role : '',
     img_user: null,
   });
 
@@ -84,7 +84,7 @@ export default function FormUser({ open, handleClose, onSubmit, users, fetchUser
       jabatan: users.jabatan || '',
       email: users.email || '',
       username: users.username || '',
-      password: users.password || '', // Pastikan password diisi
+      password: users.password || '',
       role: users.role || '',
       img_user: users.img_user || '',
       });
@@ -188,13 +188,13 @@ export default function FormUser({ open, handleClose, onSubmit, users, fetchUser
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md"
     PaperProps={{
         style: {
-          borderRadius: '20px', // Mengatur border-radius sesuai kebutuhan
+          borderRadius: '20px',
         },
       }}>
       <CustomDialogTitle>{users ? 'Edit User' : 'Tambah User'}</CustomDialogTitle>
       <CustomDialogContent>
         <DialogContentText>
-          Please fill in the following details to {users ? 'edit' : 'add'} a user.
+        Silakan isi detail berikut untuk {users ? 'mengedit' : 'menambahkan'} pengguna.
         </DialogContentText>
         <TextField
         margin="dense"
