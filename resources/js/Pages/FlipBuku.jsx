@@ -29,8 +29,8 @@ function Flipbook() {
     useEffect(() => {
         const fetchPdfUrl = async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/buku/${id}/show`);
-                const fileUrl = `http://127.0.0.1:8000${response.data.file_upload}`;
+                const response = await axios.get(`http://perpustakaan.bapekom6sby.com/api/buku/${id}/show`);
+                const fileUrl = `http://perpustakaan.bapekom6sby.com${response.data.file_upload}`;
                 setPdfUrl(fileUrl);
             } catch (error) {
                 console.error('Error fetching PDF:', error);

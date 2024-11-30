@@ -107,8 +107,10 @@ export const ButtonGroup = styled.div`
     margin-top: 10px;
 `;
 
-export const Button = styled.button`
-    background-color: ${props => props.primary ? '#FFA500' : '#D3D3D3'};
+export const Button = styled.button.withConfig({
+    shouldForwardProp: (prop) => prop !== 'small' && prop !== 'primary'
+})`
+    background-color: ${props => props.primary === true ? '#FFA500' : '#D3D3D3'};
     color: white;
     border: none;
     padding: ${props => props.full ? '10px 80px' : '10px 80px'};

@@ -64,7 +64,7 @@ export default function ChangePasswordForm({ open, handleClose, onSubmit, auth }
 
   const handleSubmit = async (passwordData) => {
     try {
-        const response = await axios.post(`http://127.0.0.1:8000/api/user/${auth.id_users}/change-password`, {
+        const response = await axios.post(`http://perpustakaan.bapekom6sby.com/api/user/${auth.id_users}/change-password`, {
           password: passwordData.password,
           newPassword: passwordData.newPassword,
           confirmPassword: passwordData.confirmPassword,

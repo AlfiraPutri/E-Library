@@ -53,7 +53,7 @@ const PreviewImage = styled('img')({
   const GridContainer = styled('div')({
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
-    gap: '20px', 
+    gap: '20px',
 
   });
 
@@ -155,12 +155,12 @@ export default function FormUser({ open, handleClose, onSubmit, users, fetchUser
         try {
             if (users) {
                 // Mode edit
-                await axios.post(`http://127.0.0.1:8000/api/user/${users.id_users}`, data, {
+                await axios.post(`http://perpustakaan.bapekom6sby.com/api/user/${users.id_users}`, data, {
                   headers: { 'Content-Type': 'multipart/form-data' },
                 });
                 alert('Data berhasil diperbarui!');
             } else {
-            await axios.post('http://127.0.0.1:8000/api/user', data, {
+            await axios.post('http://perpustakaan.bapekom6sby.com/api/user', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

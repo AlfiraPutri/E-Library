@@ -22,7 +22,7 @@ const AppBarProfile = ({userProfile}) => {
         <div className="drop-info-img">
         <img
           src={userProfile && userProfile.user && userProfile.user.img_user ?
-             `http://127.0.0.1:8000/storage/${userProfile.user.img_user}`
+             `http://perpustakaan.bapekom6sby.com/storage/${userProfile.user.img_user}`
             : '/images/profile_image.png'}
 
         />

@@ -32,7 +32,7 @@ const Profile = ({ auth }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/user/${auth.user.id_users.toString()}/show`);
+        const response = await axios.get(`http://perpustakaan.bapekom6sby.com/api/user/${auth.user.id_users.toString()}/show`);
         const userData = response.data; // Set user data
 
         setFormData((prevData) => ({
@@ -48,7 +48,7 @@ const Profile = ({ auth }) => {
             password: userData.password || '',
             profilePicture: userData.img_user || null,
           }));
-          setPreview(userData.img_user ? `http://127.0.0.1:8000${userData.img_user}` : null);
+          setPreview(userData.img_user ? `http://perpustakaan.bapekom6sby.com${userData.img_user}` : null);
           setUser(userData);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -96,7 +96,7 @@ const Profile = ({ auth }) => {
           });
 
           if (auth.user) {
-            const response = await axios.post(`http://127.0.0.1:8000/api/user/${auth.user.id_users}`, data, {
+            const response = await axios.post(`http://perpustakaan.bapekom6sby.com/api/user/${auth.user.id_users}`, data, {
               headers: {
                 'Content-Type': 'multipart/form-data',
               },
@@ -156,7 +156,7 @@ const handlePasswordToggle = () => {
           {preview ? (
             <img src={preview} alt="Profile Preview" />
           ) : formData.profilePicture ? (
-            <img src={`http://127.0.0.1:8000${formData.profilePicture}`} />
+            <img src={`http://perpustakaan.bapekom6sby.com${formData.profilePicture}`} />
           )  : (
           <p>Gambar profil belum diunggah</p>
         )}

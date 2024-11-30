@@ -18,26 +18,18 @@ const resolvePage = async (name) => {
     try {
         if (name === 'BaseLayout') {
             // Special case for BaseLayout
-            const module = await import(`./Layouts/BaseLayout`);
+            const module = await import(`./Layouts/BaseLayout.jsx`);
             return module.default;
         }
 
-        // Try to import from the nested directory structure: ./Pages/name/name
-        const module = await import(`./Pages/${name}/${name}`);
+        // Import directly from flat structure: ./Pages/name.jsx
+        const module = await import(/* @vite-ignore */ `./Pages/${name}.jsx`);
         return module.default;
     } catch (error) {
-        console.error(`Error importing page ${name}:`, error);
+        console.error(`Error importing page ${name}.jsx:`, error);
 
-        // If the first import fails, try to import from the flat structure: ./Pages/${name}
-        try {
-            const module = await import(`./Pages/${name}`);
-            return module.default;
-        } catch (error) {
-            console.error(`Error importing page ${name} from flat structure:`, error);
-
-            // If both imports fail, throw an error
-            throw new Error(`Unknown page: ${name}`);
-        }
+        // If import fails, throw an error
+        throw new Error(`Unknown page: ${name}.jsx`);
     }
 };
 
@@ -62,3 +54,31 @@ createInertiaApp({
         color: '#4B5563',
     },
 });
+
+
+// const resolvePage = async (name) => {
+//     try {
+//         if (name === 'BaseLayout') {
+//             // Special case for BaseLayout
+//             const module = await import(`./Layouts/BaseLayout.jsx`);
+//             return module.default;
+//         }
+
+//         // Try to import from the nested directory structure: ./Pages/name/name
+//         const module = await import(/* @vite-ignore */ `./Pages/${name}/${name}.jsx`);
+//         return module.default;
+//     } catch (error) {
+//         console.error(`Error importing page ${name}.jsx:`, error);
+
+//         // If the first import fails, try to import from the flat structure: ./Pages/${name}
+//         try {
+//             const module = await import(`./Pages/${name}.jsx`);
+//             return module.default;
+//         } catch (error) {
+//             console.error(`Error importing page ${name} from flat structure:`, error);
+
+//             // If both imports fail, throw an error
+//             throw new Error(`Unknown page: ${name}.jsx`);
+//         }
+//     }
+// };

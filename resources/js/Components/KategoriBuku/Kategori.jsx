@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { BlockTitle } from "../../styles/global/default";
 import { KategoriWrap } from "./Kategori.styles";
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import FormKategori from '../FormKategori';
@@ -13,8 +12,7 @@ import Delete from '@mui/icons-material/Delete';
 import Swal from 'sweetalert2';
 
 
-const Kategori = ({setPageTitle}) => {
-  setPageTitle('Kategori Buku')
+const Kategori = () => {
   const [kategori, setKategori] = useState([]);
   const [isFormKategoriOpen, setIsFormKategoriOpen] = useState(false);
   const [currentCategory, setCurrentCategory] = useState(null);
@@ -29,7 +27,7 @@ const Kategori = ({setPageTitle}) => {
 
   const fetchKategori = async () => {
     try {
-      const url = `http://127.0.0.1:8000/api/kategori`;
+      const url = `http://perpustakaan.bapekom6sby.com/api/kategori`;
     //   console.log('Fetching from URL:', url);
       const response = await axios.get(url);
       setKategori(response.data);
@@ -72,9 +70,9 @@ const Kategori = ({setPageTitle}) => {
   const handleFormSubmit = async (formData) => {
     try {
       if (currentCategory) {
-        await axios.put(`http://127.0.0.1:8000/api/kategori/${currentCategory.id_kategori}`, formData);
+        await axios.put(`http://perpustakaan.bapekom6sby.com/api/kategori/${currentCategory.id_kategori}`, formData);
       } else {
-        await axios.post(`http://127.0.0.1:8000/api/kategori`, formData);
+        await axios.post(`http://perpustakaan.bapekom6sby.com/api/kategori`, formData);
       }
       fetchKategori();
       handleFormKategoriClose();
@@ -96,7 +94,7 @@ const Kategori = ({setPageTitle}) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/kategori/${id}`);
+      await axios.delete(`http://perpustakaan.bapekom6sby.com/api/kategori/${id}`);
       fetchKategori();
       Swal.fire('Terhapus!', 'Kategori berhasil dihapus.', 'success');
     } catch (error) {

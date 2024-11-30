@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BlockTitle } from "../../styles/global/default";
 import { DataUsersWrap } from "./DataUsers.styles";
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import FormUser from '../FormUser';
@@ -11,7 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import ArrowDownward from '@mui/icons-material/ArrowDownward';
 import Delete from '@mui/icons-material/Delete';
 import Swal from 'sweetalert2';
-import Add from '@mui/icons-material/Add';
+
 
 
 const DataUsers = () => {
@@ -34,7 +33,7 @@ const DataUsers = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/user`);
+      const response = await axios.get(`http://perpustakaan.bapekom6sby.com/api/user`);
       setUser(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -75,11 +74,11 @@ useEffect(() => {
   const handleFormSubmit = async (formData) => {
     try {
       if (currentUser) {
-        await axios.put(`http://127.0.0.1:8000/api/user/${currentUser.id_users}`, formData);
+        await axios.put(`http://perpustakaan.bapekom6sby.com/api/user/${currentUser.id_users}`, formData);
         alert('Data berhasil diperbarui!');
 
       } else {
-        await axios.post(`http://127.0.0.1:8000/api/user`, formData);
+        await axios.post(`http://perpustakaan.bapekom6sby.com/api/user`, formData);
         alert('Data berhasil ditambahkan!');
       }
       fetchUser();
@@ -102,7 +101,7 @@ useEffect(() => {
       }).then(async (result) => {
         if (result.isConfirmed) {
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/user/${id}`);
+      await axios.delete(`http://perpustakaan.bapekom6sby.com/api/user/${id}`);
       alert('Data berhasil dihapus!');
       fetchUser();
       Swal.fire('Terhapus!', 'Pengguna berhasil dihapus.', 'success');

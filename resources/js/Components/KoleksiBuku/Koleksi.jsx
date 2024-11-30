@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Pastikan axios diimpor
-import { BlockTitle } from "../../styles/global/default";
+import axios from 'axios'; 
 import { KoleksiWrap } from "./Koleksi.styles";
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import FormKoleksi from "../FormKoleksi";
@@ -34,7 +33,7 @@ const Koleksi = ({ setPageTitle }) => {
 
   const fetchBukus = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/buku`);
+      const response = await axios.get(`http://perpustakaan.bapekom6sby.com/api/buku`);
       console.log('Fetched data:', response.data);
       setBukus(response.data);
       console.log('Updated bukus state:', response.data);
@@ -78,9 +77,9 @@ const Koleksi = ({ setPageTitle }) => {
   const handleFormSubmit = async (formData) => {
     try {
       if (currentBuku) {
-        await axios.put(`http://127.0.0.1:8000/api/buku/${currentBuku.id_buku}`, formData);
+        await axios.put(`http://perpustakaan.bapekom6sby.com/api/buku/${currentBuku.id_buku}`, formData);
       } else {
-        await axios.post(`http://127.0.0.1:8000/api/buku`, formData, {
+        await axios.post(`http://perpustakaan.bapekom6sby.com/api/buku`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -118,7 +117,7 @@ const Koleksi = ({ setPageTitle }) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/buku/${id}`);
+      await axios.delete(`http://perpustakaan.bapekom6sby.com/api/buku/${id}`);
       fetchBukus();
       Swal.fire('Terhapus!', 'Buku berhasil dihapus.', 'success');
     } catch (error) {

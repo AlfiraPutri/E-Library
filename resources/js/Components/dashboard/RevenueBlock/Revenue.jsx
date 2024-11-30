@@ -19,7 +19,7 @@ const Revenue = () => {
   useEffect(() => {
     const fetchHistoryData = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/history");
+        const response = await axios.get("http://perpustakaan.bapekom6sby.com/api/history");
         const history = response.data;
 
         console.log("Data dari API:", history);

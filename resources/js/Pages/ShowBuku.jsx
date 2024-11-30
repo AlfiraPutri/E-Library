@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ShowBukuWrap, Container, Divider, InfoTitle, ContentWrapper, LeftColumn, RightColumn, CoverImage, Button, Title, Description, InfoSection, InfoItem, DownloadButton, SmileButton, Badge, InfoTable } from './ShowBuku.styles';
+import { ShowBukuWrap, Container, Divider, InfoTitle, ContentWrapper, LeftColumn, RightColumn, CoverImage, Button, Title, Description, Badge, InfoTable } from './ShowBuku.styles';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faHeart } from '@fortawesome/free-solid-svg-icons';
@@ -21,7 +21,7 @@ const ShowBukuPage = ({auth}) => {
         // Fetch buku from API
         const fetchBuku = async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/buku/${id}/show`);
+                const response = await axios.get(`http://perpustakaan.bapekom6sby.com/api/buku/${id}/show`);
                 console.log(response.data);
                 setBuku(response.data);
             } catch (error) {
@@ -38,7 +38,7 @@ const ShowBukuPage = ({auth}) => {
         return <div>Loading...</div>;
     }
 
-    const pdfUrl = buku.file_upload ? `http://127.0.0.1:8000${buku.file_upload}` : '';
+    const pdfUrl = buku.file_upload ? `http://perpustakaan.bapekom6sby.com${buku.file_upload}` : '';
     console.log(pdfUrl);
 
     const handleReadNowClick = async () => {
@@ -50,7 +50,7 @@ const ShowBukuPage = ({auth}) => {
         try {
             console.log('User ID:', auth.user.id_users);
             console.log('Buku ID:', id_buku);
-            const response = await axios.post(`http://127.0.0.1:8000/api/user/${auth.user.id_users}/history`,
+            const response = await axios.post(`http://perpustakaan.bapekom6sby.com/api/user/${auth.user.id_users}/history`,
                 {
                     id_buku: id_buku,
                     judul: buku.judul,
@@ -67,7 +67,7 @@ const ShowBukuPage = ({auth}) => {
 
     const handleAddToFavorites = async () => {
         try {
-            const response = await axios.post(`http://127.0.0.1:8000/api/user/${auth.user.id_users}/favorite`, {
+            const response = await axios.post(`http://perpustakaan.bapekom6sby.com/api/user/${auth.user.id_users}/favorite`, {
                 id_buku: buku.id_buku,
                 judul: buku.judul,
                 img_buku: buku.img_buku,
@@ -93,7 +93,7 @@ const ShowBukuPage = ({auth}) => {
 
     const handleDownloadClick = async () => {
         try {
-            const response = await axios.post(`http://127.0.0.1:8000/api/user/${auth.user.id_users}/download`, {
+            const response = await axios.post(`http://perpustakaan.bapekom6sby.com/api/user/${auth.user.id_users}/download`, {
                 id_buku: buku.id_buku,
                 judul: buku.judul,
                 img_buku: buku.img_buku,

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaInstagram, FaYoutube, FaUserAstronaut, FaUserCircle } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { FaPhoneAlt, FaEnvelope, FaFacebook, FaInstagram, FaYoutube, FaUserCircle } from "react-icons/fa";
+
 
 const Navbar = ({}) => {
     const [time, setTime] = useState("");

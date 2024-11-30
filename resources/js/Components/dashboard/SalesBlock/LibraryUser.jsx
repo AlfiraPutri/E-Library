@@ -19,7 +19,7 @@ const LibraryUser = ({ auth}) => {
     useEffect(() => {
         const fetchHistory = async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/user/${auth.user.id_users.toString()}/history`);
+                const response = await axios.get(`http://perpustakaan.bapekom6sby.com/api/user/${auth.user.id_users.toString()}/history`);
                 console.log('Fetched history data:', response);
                 // Sort by created_at (descending) to get the latest records first
                 const sortedHistory = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
@@ -85,7 +85,7 @@ const LibraryUser = ({ auth}) => {
                     .map((entry) => (
                         <div key={entry.id_buku} className="book-item" onClick={() => handleBookClick(entry.buku.id_buku)}>
                             <img
-                                src={`http://127.0.0.1:8000/storage/${entry.buku.img_buku}`}
+                                src={`http://perpustakaan.bapekom6sby.com/storage/${entry.buku.img_buku}`}
                                 className="book-image"
 
                             />

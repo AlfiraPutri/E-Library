@@ -17,7 +17,7 @@ const TopProducts = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/buku");
+        const response = await axios.get("http://perpustakaan.bapekom6sby.com/api/buku");
         const bookData = response.data;
 
         // Debugging: Log the API response to inspect data format
@@ -57,13 +57,19 @@ const TopProducts = () => {
             </tr>
           </thead>
           <tbody>
-            {books?.map((book, index) => (
+            {books.length > 0 ? (
+            books?.map((book, index) => (
               <tr key={book.id || index}> {/* Fallback to index if book.id is unavailable */}
                 <td>{index + 1}</td>
                 <td>{book.judul}</td>
                 <td>{formatDate(book.dateAdded || book.created_at)}</td> {/* Fallback to 'created_at' */}
               </tr>
-            ))}
+            ))
+        ) : (
+            <tr>
+                 <td colSpan={3}>Tidak ada data buku</td>
+            </tr>
+            )}
           </tbody>
         </table>
       </div>

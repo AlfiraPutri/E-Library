@@ -17,7 +17,7 @@ const SalesUser = () => {
     useEffect(() => {
         const fetchBooks = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:8000/api/buku');
+                const response = await axios.get('http://perpustakaan.bapekom6sby.com/api/buku');
                 console.log(response.data);
                 setBooks(response.data);
             } catch (error) {
@@ -27,7 +27,7 @@ const SalesUser = () => {
 
         const fetchCategories = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:8000/api/kategori');
+                const response = await axios.get('http://perpustakaan.bapekom6sby.com/api/kategori');
                 setCategories(response.data);
             } catch (error) {
                 console.error('Error fetching categories data:', error);
@@ -99,7 +99,7 @@ const SalesUser = () => {
                 {filteredBooks.length > 0 ? (
                         filteredBooks.map((buku) => (
                             <div key={buku.id_buku} className="book-item" onClick={() => handleBookClick(buku.id_buku)}>
-                                <img src={`http://127.0.0.1:8000/storage/${buku.img_buku}`} className="book-image" alt={buku.judul} />
+                                <img src={`http://perpustakaan.bapekom6sby.com/storage/${buku.img_buku}`} className="book-image" alt={buku.judul} />
                                 <p className="book-title">{buku.judul}</p>
                             </div>
                         ))

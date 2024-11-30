@@ -16,7 +16,7 @@ const Review = () => {
 
   const fetchReview = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/review`);
+      const response = await axios.get(`http://perpustakaan.bapekom6sby.com/api/review`);
       setReview(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -40,9 +40,9 @@ const Review = () => {
   const handleFormSubmit = async (formData) => {
     try {
       if (currentReview) {
-        await axios.put(`http://127.0.0.1:8000/api/review/${currentReview.id_review}`, formData);
+        await axios.put(`perpustakaan.bapekom6sby.com/api/review/${currentReview.id_review}`, formData);
       } else {
-        await axios.post(`http://127.0.0.1:8000/api/review`, formData);
+        await axios.post(`perpustakaan.bapekom6sby.com/api/review`, formData);
       }
       fetchReview();
       handleFormReviewClose();
@@ -53,7 +53,7 @@ const Review = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/review/${id}`);
+      await axios.delete(`perpustakaan.bapekom6sby.com/api/review/${id}`);
       fetchReview();
     } catch (error) {
       console.error('Error deleting review:', error);

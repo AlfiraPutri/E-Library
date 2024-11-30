@@ -22,7 +22,7 @@ const SalesBlock = () => {
         const fetchTotalUsers = async () => {
           try {
             // Ganti URL dengan endpoint API yang sesuai
-            const response = await axios.get('http://127.0.0.1:8000/api/user');
+            const response = await axios.get('http://perpustakaan.bapekom6sby.com/api/user');
             const users = response.data;
             setTotalUsers(users.length); // Pastikan respons API memiliki format yang sesuai
           } catch (error) {
@@ -35,7 +35,7 @@ const SalesBlock = () => {
         const fetchTotalBuku = async () => {
             try {
               // Ganti URL dengan endpoint API yang sesuai
-              const response = await axios.get('http://127.0.0.1:8000/api/buku');
+              const response = await axios.get('http://perpustakaan.bapekom6sby.com/api/buku');
               const buku = response.data;
               setTotalBuku(buku.length); // Pastikan respons API memiliki format yang sesuai
             } catch (error) {
@@ -48,7 +48,7 @@ const SalesBlock = () => {
           const fetchTotalKategori = async () => {
             try {
               // Ganti URL dengan endpoint API yang sesuai
-              const response = await axios.get('http://127.0.0.1:8000/api/kategori');
+              const response = await axios.get('http://perpustakaan.bapekom6sby.com/api/kategori');
               const category = response.data;
               setTotalKategori(category.length); // Pastikan respons API memiliki format yang sesuai
             } catch (error) {
@@ -61,7 +61,7 @@ const SalesBlock = () => {
           const fetchTotalBukuTerbaca = async () => {
             try {
                 // Fetch history data for all users
-                const response = await axios.get('http://127.0.0.1:8000/api/history');
+                const response = await axios.get('http://perpustakaan.bapekom6sby.com/api/history');
                 const history = response.data;
 
                 // Use a Set to track unique book IDs

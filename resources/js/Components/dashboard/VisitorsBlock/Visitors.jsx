@@ -20,7 +20,7 @@ const VisitorsBlock = () => {
     // Fetch the user data per month from the API
     const fetchUsersByMonth = async () => {
         try {
-          const response = await axios.get('http://127.0.0.1:8000/api/user');
+          const response = await axios.get('http://perpustakaan.bapekom6sby.com/api/user');
           const users = response.data;
 
           // Inisialisasi data untuk 12 bulan dengan nilai awal 0
@@ -88,7 +88,7 @@ const VisitorsBlock = () => {
             <Legend iconType="square" />
             <Line
               type="monotone"
-              dataKey="user"  
+              dataKey="user"
               stroke="#F9A01B"
               strokeWidth={4}
               dot={false}

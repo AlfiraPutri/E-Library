@@ -25,7 +25,7 @@ export default function FormReview({ open, handleClose, onSubmit, review }) {
     // Fetch users from API
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/user');
+        const response = await axios.get('http://perpustakaan.bapekom6sby.com/api/user');
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -39,7 +39,7 @@ export default function FormReview({ open, handleClose, onSubmit, review }) {
     // Fetch buku from API
     const fetchBuku = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/buku');
+        const response = await axios.get('http://perpustakaan.bapekom6sby.com/api/buku');
         setBuku(response.data);
       } catch (error) {
         console.error('Error fetching buku:', error);

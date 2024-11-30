@@ -74,7 +74,7 @@ const CustomDialogTitle = styled(DialogTitle)(({ theme }) => ({
     React.useEffect(() => {
       const fetchCategories = async () => {
         try {
-          const response = await axios.get('http://127.0.0.1:8000/api/kategori');
+          const response = await axios.get('http://perpustakaan.bapekom6sby.com/api/kategori');
           setCategories(response.data);
         } catch (error) {
           console.error('Error fetching categories:', error);
@@ -154,7 +154,7 @@ const CustomDialogTitle = styled(DialogTitle)(({ theme }) => ({
         console.log([...data.entries()]); // Log FormData entries
 
         try {
-            await axios.post('http://127.0.0.1:8000/api/buku', data, {
+            await axios.post('http://perpustakaan.bapekom6sby.com/api/buku', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

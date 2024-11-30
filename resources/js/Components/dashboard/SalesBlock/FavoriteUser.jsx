@@ -17,7 +17,7 @@ const FavoriteUser = ({ auth }) => {
     useEffect(() => {
         const fetchFavorite = async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/user/${auth.user.id_users.toString()}/favorite`);
+                const response = await axios.get(`http://perpustakaan.bapekom6sby.com/api/user/${auth.user.id_users.toString()}/favorite`);
                 console.log('Fetched favorite data:', response);
                 // Sort by created_at (descending) to get the latest records first
                 const sortedFavorite = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
@@ -69,9 +69,9 @@ const FavoriteUser = ({ auth }) => {
             <BlockContentWrap>
                 <div className="book-collection">
                     {favorite.length > 0 ? (
-                        favorite.map((entry) => (
-                            <div key={entry.id} className="book-item">
-                                <img src={`http://127.0.0.1:8000/storage/${entry.buku.img_buku}`} className="book-image" alt="Book Cover" />
+                        favorite.map((entry, index) => (
+                            <div key={entry.id || index} className="book-item">
+                                <img src={`http://perpustakaan.bapekom6sby.com/storage/${entry.buku.img_buku}`} className="book-image" alt="Book Cover" />
                                 <p className="book-title">{entry.buku.judul}</p>
                             </div>
                         ))

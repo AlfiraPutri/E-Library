@@ -18,7 +18,7 @@ const DownloadUser = ({ auth  }) => {
     useEffect(() => {
         const fetchDownload = async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/user/${auth.user.id_users.toString()}/download`);
+                const response = await axios.get(`http://perpustakaan.bapekom6sby.com/api/user/${auth.user.id_users.toString()}/download`);
                 console.log('Fetched download data:', response);
                 // Sort by created_at (descending) to get the latest records first
                 const sortedDownload = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
@@ -70,9 +70,9 @@ const DownloadUser = ({ auth  }) => {
             <BlockContentWrap>
                 <div className="book-collection">
                     {download.length > 0 ? (
-                    download.map((entry) => (
-                        <div key={entry.id} className="book-item">
-                            <img src={`http://127.0.0.1:8000/storage/${entry.buku.img_buku}`} className="book-image" alt="Book Cover" />
+                    download.map((entry, index) => (
+                        <div key={entry.id || index} className="book-item">
+                            <img src={`http://perpustakaan.bapekom6sby.com/storage/${entry.buku.img_buku}`} className="book-image" alt="Book Cover" />
                             <p className="book-title">{entry.buku.judul}</p>
                         </div>
                     ))

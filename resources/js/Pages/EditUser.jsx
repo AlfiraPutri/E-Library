@@ -27,7 +27,7 @@ const EditUserPage = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/user/${id}/show`);
+                const response = await axios.get(`http://perpustakaan.bapekom6sby.com/api/user/${id}/show`);
                 console.log('Fetched user data:', response.data);
                 setUser(response.data);
             } catch (error) {
@@ -71,7 +71,7 @@ const EditUserPage = () => {
             }
 
             // Update user yang ada
-            const response = await axios.post(`http://127.0.0.1:8000/api/user/${id}/edit`, formDataToSend, {
+            const response = await axios.post(`http://perpustakaan.bapekom6sby.com/api/user/${id}/edit`, formDataToSend, {
                 // headers: { 'Content-Type': 'multipart/form-data' } // Pastikan headernya sesuai jika menggunakan FormData
             });
             console.log("🚀 ~ handleSaveChanges ~ response:", response);
@@ -86,7 +86,7 @@ const EditUserPage = () => {
     // const handleDeleteBook = async () => {
     //     try {
     //         if (buku) {
-    //             await axios.delete(`http://127.0.0.1:8000/api/user/${id}`);
+    //             await axios.delete(`perpustakaan.bapekom6sby.com/api/user/${id}`);
     //             console.log('User deleted');
     //         }
     //     } catch (error) {

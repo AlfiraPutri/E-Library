@@ -34,7 +34,7 @@ const EditBukuPage = ({ setPageTitle }) => {
     useEffect(() => {
         const fetchBuku = async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/buku/${id}/show`);
+                const response = await axios.get(`http://perpustakaan.bapekom6sby.com/api/buku/${id}/show`);
                 setBuku(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -67,7 +67,7 @@ const EditBukuPage = ({ setPageTitle }) => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:8000/api/kategori');
+                const response = await axios.get('http://perpustakaan.bapekom6sby.com/api/kategori');
                 setCategories(response.data);
             } catch (error) {
                 console.error('Error fetching categories:', error);
@@ -106,7 +106,7 @@ const EditBukuPage = ({ setPageTitle }) => {
 
             if (buku) {
                 // Update buku yang ada
-                const response = await axios.post(`http://127.0.0.1:8000/api/buku/${id}/edit`, formData, {
+                const response = await axios.post(`http://perpustakaan.bapekom6sby.com/api/buku/${id}/edit`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
@@ -114,7 +114,7 @@ const EditBukuPage = ({ setPageTitle }) => {
                 console.log("🚀 ~ handleSaveChanges ~ response:", response);
             } else {
                 // Tambahkan buku baru
-                await axios.post('http://127.0.0.1:8000/api/buku', formDataToSend, {
+                await axios.post('http://perpustakaan.bapekom6sby.com/api/buku', formDataToSend, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
@@ -144,7 +144,7 @@ const EditBukuPage = ({ setPageTitle }) => {
     // const handleDeleteBook = async () => {
     //     try {
     //         if (buku) {
-    //             await axios.delete(`http://127.0.0.1:8000/api/buku/${id}`);
+    //             await axios.delete(`perpustakaan.bapekom6sby.com/api/buku/${id}`);
     //             console.log('Book deleted');
     //         }
     //     } catch (error) {
