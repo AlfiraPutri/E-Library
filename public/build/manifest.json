@@ -1,0 +1,30 @@
+{
+  "resources/js/Layouts/BaseLayout.jsx": {
+    "file": "assets/BaseLayout-gD_VV7pR.js",
+    "name": "BaseLayout",
+    "src": "resources/js/Layouts/BaseLayout.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx"
+    ],
+    "dynamicImports": [
+      "resources/js/app.jsx",
+      "resources/js/app.jsx",
+      "resources/js/app.jsx",
+      "resources/js/app.jsx"
+    ]
+  },
+  "resources/js/app.jsx": {
+    "file": "assets/app-8rBpw5yi.js",
+    "name": "app",
+    "src": "resources/js/app.jsx",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "dynamicImports": [
+      "resources/js/Layouts/BaseLayout.jsx"
+    ],
+    "css": [
+      "assets/app-DOIuykQT.css"
+    ]
+  }
+}
